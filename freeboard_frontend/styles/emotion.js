@@ -171,4 +171,5 @@ export const MyRegisterBtn = styled.button`
   background-color: #FFD600;
   border: none;
   font-size: 16px;
+  cursor: pointer;
 `
