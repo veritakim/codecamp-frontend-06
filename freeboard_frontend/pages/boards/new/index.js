@@ -10,48 +10,55 @@ import {MyPage, Wrapper, MyTitle, MyHeadWrapper,
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-
   const [password, setPassword] = useState("");
-  const [passWordError, setPassWordError] = useState("");
-
   const [checkPass, setCheckPass] = useState("");
-  const [checkPassError, setCheckPassError] = useState("");
-
   const [title, setTitle] = useState("");
-  const [titleError, setTitleError] = useState("");
-
   const [content, setContent] = useState("");
-  const [contentError, setContentError] = useState("");
-
   const [addr, setAddr] = useState("");
+
+  const [nameError, setNameError] = useState("");
+  const [passWordError, setPassWordError] = useState("");
+  const [checkPassError, setCheckPassError] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [contentError, setContentError] = useState("");
   const [addrError, setAddrError] = useState("");
+
+
+
 
   const [color, setColor] = useState("red");
   
 
   function onChangeName (event) { 
       setName(event.target.value);
-   }
-
-  function onChangePass (event) {
-    setPassword(event.target.value)
-  }
-  function onChangeCheckPass (event) { 
-    setCheckPass(event.target.value)
-  }
-
-  function onChangeTitle (event) {
-    setTitle(event.target.value)
+      if (event.target.value) {
+        setNameError("")
+      }
+    }
+    
+    function onChangePass (event) {
+      setPassword(event.target.value)
+      if (event.target.value) {
+        setPassWordError("")
+      }
+    }
+    
+    function onChangeTitle (event) {
+      setTitle(event.target.value)
+      if (event.target.value) {
+        setTitleError("")
+      }
   }
 
   function onChangeContent (event) {
     setContent(event.target.value)
+    if (event.target.value) {
+      setContentError("")
+    }
   }
-
+  let address;
   let address1;
   let address2;
-  let address;
 
   function onChangeAddr (event) {  
     address1 = event.target.value;
@@ -59,52 +66,45 @@ export default function RegisterPage() {
   
   function onChangeAddrs (event) {
     address2 = event.target.value;
+    onAddr()
+  }
+
+  function onAddr () {       
+    console.log(address1, address2)      
+    if (address1 !== "" && address2 !== "") {
+      setAddr(address1 + address2);
+      setAddrError("")
+    } 
   }
 
 
-
   function signCheck () {
-    address = address1 + address2;
-    setAddr(address);
 
     if (!name) {
       setNameError("이름을 입력해주세요")
-    } else {
-      setNameError(" ")
-    }
+    } 
 
     if (!password) {
       setPassWordError("비밀번호를 입력해주세요")
-    } else {
-      setPassWordError(" ")
-    }
+    } 
     
     if (password !== checkPass) {
       setCheckPassError("비밀번호가 다릅니다")
-    } else {
-      setCheckPassError(" ")
-    }
-
+    } 
     if (!title) {
       setTitleError("제목을 입력해주세요")
-    } else {
-      setTitleError("")
-    }
+    } 
 
     if (!content) {
       setContentError("내용을 입력해주세요")
-    } else {
-      setContentError("")
-    }
+    } 
 
     if (!addr) {
       setAddrError("주소를 입력해주세요")
-    } else {
-      setAddrError("")
-    }
+    } 
 
-    if (name && password && title && content) {
-      alert("가입을 축하드립니다")
+    if (name !== "" && password !== "" && title !== "" && content !== "") {
+      alert("글이 작성되었습니다")
     }
   }
 
