@@ -5,7 +5,7 @@ import {MyPage, Wrapper, MyTitle, MyHeadWrapper,
   MyMiddleWrapper, MyMiddleInput, MyMiddleText, MyMiddleTextArea,
   MyAddrWrapper, MyAddrCode, MyAddrCodeInput, MyAddrBtn, MyAddrWrappert,
   MyPhotoBody, MyPhotoWrapper, MyPhotoBtn, MyPhotoSpanPlus, MyPhotoSpanUp, 
-  MyMain, MyMainDiv, MyMainRadio, MyRegisterBtnDiv, MyRegisterBtn} from '../../../styles/emotion'
+  MyMain, MyMainDiv, MyMainRadio, MyRegisterBtnDiv, MyRegisterBtn, ExtenFont} from '../../../styles/emotion'
 
 
 export default function RegisterPage() {
@@ -181,6 +181,7 @@ export default function RegisterPage() {
         <MyRegisterBtnDiv>
           <MyRegisterBtn onClick={signCheck}>등록하기</MyRegisterBtn>
         </MyRegisterBtnDiv>
+        <ExtenFont>안녕하세요</ExtenFont>
 
       </Wrapper>
     </MyPage>

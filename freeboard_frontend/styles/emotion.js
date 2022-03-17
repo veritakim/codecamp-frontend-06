@@ -164,6 +164,7 @@ export const MyRegisterBtnDiv = styled.div`
   width: 100%;
   text-align: center;
 `
+export const ExtenFont = styled(MyPhotoSpanPlus) ``
 
 export const MyRegisterBtn = styled.button`
   height: 52px;
