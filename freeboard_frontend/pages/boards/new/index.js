@@ -1,86 +1,56 @@
 // /board/new 로 접속할 수 있다.
 import { useState } from 'react'
+import {useMutation, gql} from '@apollo/client'
+
 import {MyPage, Wrapper, MyTitle, MyHeadWrapper, 
   MyLittleWrapper, MySmallTitle, MySmallInput, 
   MyMiddleWrapper, MyMiddleInput, MyMiddleText, MyMiddleTextArea,
   MyAddrWrapper, MyAddrCode, MyAddrCodeInput, MyAddrBtn, MyAddrWrappert,
   MyPhotoBody, MyPhotoWrapper, MyPhotoBtn, MyPhotoSpanPlus, MyPhotoSpanUp, 
-  MyMain, MyMainDiv, MyMainRadio, MyRegisterBtnDiv, MyRegisterBtn, ExtenFont} from '../../../styles/emotion'
+  MyMain, MyMainDiv, MyMainRadio, MyRegisterBtnDiv, MyRegisterBtn, ErrorDiv} from '../../../styles/emotion'
 
+
+
+const CREATE_BOARD = gql`
+   mutation createBoard($createBoardInput: CreateBoardInput!){
+    createBoard(createBoardInput: $createBoardInput){
+      _id
+      writer
+      title
+      contents
+      youtubeUrl
+    }  
+  }
+`
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
+  const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
-  const [checkPass, setCheckPass] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [addr, setAddr] = useState("");
+  const [addr2, setAddr2] = useState("");
+  const [youtube, setYoutube] = useState("");
 
   const [nameError, setNameError] = useState("");
   const [passWordError, setPassWordError] = useState("");
-  const [checkPassError, setCheckPassError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentError, setContentError] = useState("");
   const [addrError, setAddrError] = useState("");
+  const [addrError2, setAddrError2] = useState("");
 
+  const [createBoard] = useMutation(CREATE_BOARD)
 
-
-
-  const [color, setColor] = useState("red");
   
 
-  function onChangeName (event) { 
-      setName(event.target.value);
-      if (event.target.value) {
-        setNameError("")
-      }
-    }
-    
-    function onChangePass (event) {
-      setPassword(event.target.value)
-      if (event.target.value) {
-        setPassWordError("")
-      }
-    }
-    
-    function onChangeTitle (event) {
-      setTitle(event.target.value)
-      if (event.target.value) {
-        setTitleError("")
-      }
-  }
-
-  function onChangeContent (event) {
-    setContent(event.target.value)
-    if (event.target.value) {
-      setContentError("")
-    }
-  }
-  let address;
-  let address1;
-  let address2;
-
-  function onChangeAddr (event) {  
-    address1 = event.target.value;
-  }
   
-  function onChangeAddrs (event) {
-    address2 = event.target.value;
-    onAddr()
-  }
-
-  function onAddr () {       
-    console.log(address1, address2)      
-    if (address1 !== "" && address2 !== "") {
-      setAddr(address1 + address2);
-      setAddrError("")
-    } 
-  }
 
 
-  function signCheck () {
+  const signCheck = async () => {
+    
 
-    if (!name) {
+    if (!writer) {
       setNameError("이름을 입력해주세요")
     } 
 
@@ -88,9 +58,6 @@ export default function RegisterPage() {
       setPassWordError("비밀번호를 입력해주세요")
     } 
     
-    if (password !== checkPass) {
-      setCheckPassError("비밀번호가 다릅니다")
-    } 
     if (!title) {
       setTitleError("제목을 입력해주세요")
     } 
@@ -103,10 +70,85 @@ export default function RegisterPage() {
       setAddrError("주소를 입력해주세요")
     } 
 
-    if (name !== "" && password !== "" && title !== "" && content !== "") {
+    if (!addr2) {
+      setAddrError2("상세 주소를 입력하세요")
+    }
+
+    if (writer !== "" && password !== "" && title !== "" && content !== "") {
+      
+      const result = await createBoard({
+        variables: {
+          createBoardInput: {
+            writer: writer,
+            password: password, 
+            title: title,
+            contents: content,
+            youtubeUrl: youtube,
+            boardAddress: {
+              zipcode: zipcode,
+              address: addr,
+              addressDetail: addr2
+            }
+          }
+        }
+      })
+      
+      console.log(result.data.createBoard.contents)
+      console.log(result.data.createBoard.title)
       alert("글이 작성되었습니다")
     }
+
+
+
   }
+
+  function onChangeName (event) { 
+    console.log(event.target.value)
+    setWriter(event.target.value);
+    if (event.target.value) {
+      setNameError("")
+    }
+  }
+  
+  function onChangePass (event) {
+    setPassword(event.target.value)
+    if (event.target.value) {
+      setPassWordError("")
+    }
+  }
+  
+  function onChangeTitle (event) {
+    setTitle(event.target.value)
+    if (event.target.value) {
+      setTitleError("")
+    }
+  }
+
+  function onChangeContent (event) {
+    setContent(event.target.value)
+    if (event.target.value) {
+      setContentError("")
+    }
+  }
+
+
+  function onChangeZipCode (event) {  
+    setZipcode(event.target.value);
+  }
+  function onChangeAddr (event) {  
+    setAddr(event.target.value);
+  }
+
+  function onChangeAddrDetail (event) {
+   setAddr2(event.target.value);
+    
+  }
+
+  function onChageYoutue (event) {
+    setYoutube(event.target.value)
+  }
+
+
 
 
   return (
@@ -118,39 +160,40 @@ export default function RegisterPage() {
           <MyLittleWrapper>
             <MySmallTitle>작성자</MySmallTitle>
             <MySmallInput type="text" placeholder='이름을 적어주세요' onChange={onChangeName}/>
-            <div style={{color}}>{nameError}</div>
+            <ErrorDiv>{nameError}</ErrorDiv>
           </MyLittleWrapper>
           <MyLittleWrapper>
             <MySmallTitle>비밀번호</MySmallTitle>
             <MySmallInput type="password" placeholder='비밀번호를 입력해주세요' onChange={onChangePass}/>
-            <div style={{color}}>{passWordError}</div>
+            <ErrorDiv>{passWordError}</ErrorDiv>
           </MyLittleWrapper>     
         </MyHeadWrapper>
         <MyMiddleWrapper>
           <MySmallTitle>제목</MySmallTitle>
           <MyMiddleInput type='text' placeholder='제목을 작성해주세요.' onChange={onChangeTitle}/>
-          <div style={{color}}>{titleError}</div>
+          <ErrorDiv>{titleError}</ErrorDiv>
         </MyMiddleWrapper>
         <MyMiddleTextArea>
           <MySmallTitle>내용</MySmallTitle>
           <MyMiddleText type='textarea' placeholder='내용을 작성해주세요.' onChange={onChangeContent} />
-          <div style={{color}}>{contentError}</div>
+          <ErrorDiv>{contentError}</ErrorDiv>
         </MyMiddleTextArea>
         <MyAddrWrapper>
           <MySmallTitle>주소</MySmallTitle>
           <MyAddrCode>
-            <MyAddrCodeInput type='text' placeholder='07250'/>
+            <MyAddrCodeInput type='text' placeholder='07250' onChange={onChangeZipCode}/>
             <MyAddrBtn>우편번호 검색</MyAddrBtn>
           </MyAddrCode>
           <MyMiddleInput type='text' onChange={onChangeAddr}/>
+          <ErrorDiv>{addrError}</ErrorDiv>
         </MyAddrWrapper>
         <MyAddrWrappert>
-          <MyMiddleInput type='text' onChange={onChangeAddrs}/>
-          <div style={{color}}>{addrError}</div>
+          <MyMiddleInput type='text' onChange={onChangeAddrDetail}/>
+          <ErrorDiv>{addrError2}</ErrorDiv>
         </MyAddrWrappert>
         <MyMiddleWrapper>
           <MySmallTitle>유튜브</MySmallTitle>
-          <MyMiddleInput type='text' placeholder='링크를 복사해주세요' />
+          <MyMiddleInput type='text' placeholder='링크를 복사해주세요' onChange={onChageYoutue}/>
         </MyMiddleWrapper>
         <MyPhotoBody>
           <MySmallTitle>사진첨부</MySmallTitle>
@@ -181,7 +224,6 @@ export default function RegisterPage() {
         <MyRegisterBtnDiv>
           <MyRegisterBtn onClick={signCheck}>등록하기</MyRegisterBtn>
         </MyRegisterBtnDiv>
-        <ExtenFont>안녕하세요</ExtenFont>
 
       </Wrapper>
     </MyPage>

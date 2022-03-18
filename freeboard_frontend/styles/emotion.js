@@ -174,3 +174,7 @@ export const MyRegisterBtn = styled.button`
   font-size: 16px;
   cursor: pointer;
 `
+
+export const ErrorDiv = styled.div`
+  color: red;
+`
