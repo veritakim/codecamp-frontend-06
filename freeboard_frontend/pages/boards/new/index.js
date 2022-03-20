@@ -1,6 +1,7 @@
 // /board/new 로 접속할 수 있다.
 import { useState } from 'react'
 import {useMutation, gql} from '@apollo/client'
+import { useRouter } from 'next/router'
 
 import {MyPage, Wrapper, MyTitle, MyHeadWrapper, 
   MyLittleWrapper, MySmallTitle, MySmallInput, 
@@ -24,22 +25,24 @@ const CREATE_BOARD = gql`
 `
 
 export default function RegisterPage() {
+  
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [addr, setAddr] = useState("");
-  const [addr2, setAddr2] = useState("");
+  const [addrDetail, setAddr2] = useState("");
   const [youtube, setYoutube] = useState("");
-
+  
   const [nameError, setNameError] = useState("");
   const [passWordError, setPassWordError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentError, setContentError] = useState("");
   const [addrError, setAddrError] = useState("");
   const [addrError2, setAddrError2] = useState("");
-
+  
+  const router = useRouter()
   const [createBoard] = useMutation(CREATE_BOARD)
 
   
@@ -70,32 +73,43 @@ export default function RegisterPage() {
       setAddrError("주소를 입력해주세요")
     } 
 
-    if (!addr2) {
+    if (!addrDetail) {
       setAddrError2("상세 주소를 입력하세요")
     }
 
     if (writer !== "" && password !== "" && title !== "" && content !== "") {
-      
-      const result = await createBoard({
-        variables: {
-          createBoardInput: {
-            writer: writer,
-            password: password, 
-            title: title,
-            contents: content,
-            youtubeUrl: youtube,
-            boardAddress: {
-              zipcode: zipcode,
-              address: addr,
-              addressDetail: addr2
+      try {
+        const result = await createBoard({
+          variables: {
+            createBoardInput: {
+              writer: writer,
+              password: password, 
+              title: title,
+              contents: content,
+              youtubeUrl: youtube,
+              boardAddress: {
+                zipcode: zipcode,
+                address: addr,
+                addressDetail: addrDetail
+              }
             }
           }
-        }
-      })
-      
-      console.log(result.data.createBoard.contents)
-      console.log(result.data.createBoard.title)
-      alert("글이 작성되었습니다")
+        })
+  
+        router.push(`detailBoard/${result.data.createBoard._id}`)
+        alert("글이 작성되었습니다")
+        /**
+         data.createBoard.contents 
+          title
+          writer
+          youtubeUrl
+          _id
+         */
+
+      } catch (error) {
+        console.log(error.message)
+      }
+
     }
 
 
@@ -103,7 +117,6 @@ export default function RegisterPage() {
   }
 
   function onChangeName (event) { 
-    console.log(event.target.value)
     setWriter(event.target.value);
     if (event.target.value) {
       setNameError("")
