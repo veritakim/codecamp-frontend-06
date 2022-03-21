@@ -21,4 +21,15 @@ function solution(phone_number) {
   
   
   return answer;
+
+  // 다른 방법. padStart를 이용.
+  /*let answer = '';
+    
+  // 뒤 4자리를 제외한 앞에 번호들을 *으로 채워준다
+   answer = answer.padStart(phone_number.length - 4, "*")
+  // 뒤 4자리를 갖고와서 붙여주자 
+  console.log(answer)
+  
+  answer += phone_number.slice(phone_number.length - 4);
+  return answer;*/
 }
