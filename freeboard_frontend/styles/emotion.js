@@ -284,3 +284,7 @@ export const ThumsDown = styled(ThumbsUp)`
 export const LikeCount = styled.span`
 `
 export const DisLikeCount = styled.span``
+
+export const Bookmark = styled.div`
+color : blue;
+`

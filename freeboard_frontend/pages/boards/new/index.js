@@ -32,7 +32,7 @@ export default function RegisterPage() {
   const [content, setContent] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [addr, setAddr] = useState("");
-  const [addrDetail, setAddr2] = useState("");
+  const [addrDetail, setAddrDetail] = useState("");
   const [youtube, setYoutube] = useState("");
   
   const [nameError, setNameError] = useState("");
@@ -40,7 +40,7 @@ export default function RegisterPage() {
   const [titleError, setTitleError] = useState("");
   const [contentError, setContentError] = useState("");
   const [addrError, setAddrError] = useState("");
-  const [addrError2, setAddrError2] = useState("");
+  const [addrDetailError, setAddrDetailError] = useState("");
   
   const router = useRouter()
   const [createBoard] = useMutation(CREATE_BOARD)
@@ -74,7 +74,7 @@ export default function RegisterPage() {
     } 
 
     if (!addrDetail) {
-      setAddrError2("상세 주소를 입력하세요")
+      setAddrDetailError("상세 주소를 입력하세요")
     }
 
     if (writer !== "" && password !== "" && title !== "" && content !== "") {
@@ -153,7 +153,7 @@ export default function RegisterPage() {
   }
 
   function onChangeAddrDetail (event) {
-   setAddr2(event.target.value);
+   setAddrDetail(event.target.value);
     
   }
 
@@ -202,7 +202,7 @@ export default function RegisterPage() {
         </MyAddrWrapper>
         <MyAddrWrappert>
           <MyMiddleInput type='text' onChange={onChangeAddrDetail}/>
-          <ErrorDiv>{addrError2}</ErrorDiv>
+          <ErrorDiv>{addrDetailError}</ErrorDiv>
         </MyAddrWrappert>
         <MyMiddleWrapper>
           <MySmallTitle>유튜브</MySmallTitle>

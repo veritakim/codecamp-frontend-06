@@ -2,7 +2,7 @@ import {useQuery, gql} from '@apollo/client'
 import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCircleUser, faShareSquare, faThumbsUp, faThumbsDown} from "@fortawesome/free-regular-svg-icons";
-import {faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons'
+import {faMapMarkerAlt, faBookmark} from '@fortawesome/free-solid-svg-icons'
 import {Container,
     DetailHead,
     UserInfo,
@@ -22,7 +22,8 @@ import {Container,
     ThumbsUp,
     ThumsDown,
     LikeCount,
-    DisLikeCount} from '../../../../styles/emotion'
+    DisLikeCount,
+  Bookmark} from '../../../../styles/emotion'
 
 
 
@@ -89,7 +90,7 @@ export default function DetailBoardPage () {
         </DetailPictureBox>
         <DetailContent>{data?.fetchBoard.contents}</DetailContent>
         <DetailVideo>
-          <video autoplay controls loop muted>
+          <video autoPlay controls loop muted>
             <source src="https://youtu.be/sFd8vx7XKpE"></source>
           </video>
         </DetailVideo>
@@ -102,6 +103,7 @@ export default function DetailBoardPage () {
             <FontAwesomeIcon icon={faThumbsDown} />
             <DisLikeCount>{data?.fetchBoard.dislikeCount}</DisLikeCount>
           </ThumsDown>
+          <Bookmark><FontAwesomeIcon icon={faBookmark}/></Bookmark>
 
         </DetailReactionBox>
       </DetailContents>
@@ -109,3 +111,9 @@ export default function DetailBoardPage () {
 
   )
 }
+
+// 마테리얼 ui
+
+// docs 찾아보기 
+
+// facebook 블로그 보기 !! 
