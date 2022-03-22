@@ -31,7 +31,7 @@ function onChangeName (event) {
   if (event.target.value) {
     setNameError("")
   } 
-  if(event.target.value !== "" && password !== "" && title !== "" && content !== "") {
+  if(event.target.value && password && title && content) {
     setIsActive(true)
   } else {
     setIsActive(false)
@@ -43,7 +43,7 @@ function onChangePass (event) {
   if (event.target.value) {
     setPassWordError("")
   }
-  if(writer !== "" && event.target.value !== "" && title !== "" && content !== "") {
+  if(writer && event.target.value && title && content) {
     setIsActive(true)
   } else {
     setIsActive(false)
@@ -55,7 +55,7 @@ function onChangeTitle (event) {
   if (event.target.value) {
     setTitleError("")
   }
-  if(writer !== "" && password !== "" && event.target.value !== "" && content !== "") {
+  if(writer && password && event.target.value && content) {
     setIsActive(true)
   } else {
     setIsActive(false)
@@ -67,7 +67,7 @@ function onChangeContent (event) {
   if (event.target.value) {
     setContentError("")
   }
-  if(writer !== "" && password !== "" && title !== "" && event.target.value !== "") {
+  if(writer && password && title && event.target.value) {
     setIsActive(true)
   } else {
     setIsActive(false)
