@@ -15,6 +15,8 @@ const CREATE_BOARD = gql`
 
 export default function GraphqlMutationPage () {
   const router = useRouter()
+
+  console.log("난 라우터",router);
   
   const [data, setData] = useState("")
   const [callApi] = useMutation(CREATE_BOARD)

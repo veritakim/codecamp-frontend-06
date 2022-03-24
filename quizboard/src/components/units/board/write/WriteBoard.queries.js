@@ -9,3 +9,4 @@ mutation createBoard ($writer: String, $title: String, $contents: String) {
   }
 }
 `
+
