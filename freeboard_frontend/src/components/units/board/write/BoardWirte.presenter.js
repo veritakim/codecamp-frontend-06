@@ -31,7 +31,7 @@ export default function BoardWriteUi (props) {
 
   <MyPage>
       <Wrapper>
-        <MyTitle>게시물 등록</MyTitle>
+        <MyTitle>게시물 {props.isEdit === true ? "수정" : "등록"}</MyTitle>
         <MyHeadWrapper>
           <MyLittleWrapper>
             <MySmallTitle>작성자</MySmallTitle>
@@ -98,7 +98,7 @@ export default function BoardWriteUi (props) {
               
         </MyMain>
         <MyRegisterBtnDiv>
-          <MyRegisterBtn onClick={props.signCheck} isActive={props.isActive}>등록하기</MyRegisterBtn>
+          <MyRegisterBtn onClick={props.isEdit? props.boardEdit : props.signCheck} isActive={props.isActive}>{props.isEdit === true ? "수정" : "등록"}</MyRegisterBtn>
         </MyRegisterBtnDiv>
 
       </Wrapper>

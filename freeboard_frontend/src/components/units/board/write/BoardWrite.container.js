@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { CREATE_BOARD } from './BoardWrite.queries';
 import BoardWriteUi from './BoardWirte.presenter';
 
-export default function BoardWritePage () {
+export default function BoardWritePage (props) {
 const [writer, setWriter] = useState("");
 const [password, setPassword] = useState("");
 const [title, setTitle] = useState("");
@@ -153,6 +153,11 @@ const signCheck = async () => {
   }
 }
 
+
+  const boardEdit = () => {
+    alert("h2")
+  }
+
  return (
   <BoardWriteUi
   onChangeName={onChangeName}
@@ -164,6 +169,7 @@ const signCheck = async () => {
   onChangeAddrDetail={onChangeAddrDetail}
   onChageYoutue={onChageYoutue}
   signCheck={signCheck}
+  boardEdit={boardEdit}
   isActive={isActive}
   nameError={nameError}
   passWordError={passWordError}
@@ -171,6 +177,7 @@ const signCheck = async () => {
   contentError={contentError}
   addrError={addrError}
   addrDetailError={addrDetailError}
-  ></BoardWriteUi> 
+  isEdit={props.isEdit}
+   /> 
   )
 }

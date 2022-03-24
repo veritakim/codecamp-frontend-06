@@ -5,6 +5,6 @@ import BoardWritePage from '../../../src/components/units/board/write/BoardWrite
 export default function RegisterPage() {
   
   return (
-    <BoardWritePage></BoardWritePage>
+    <BoardWritePage isEdit={false} />
   )
 }

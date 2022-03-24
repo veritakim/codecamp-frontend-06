@@ -1,10 +1,17 @@
 import styled from '@emotion/styled'
 
+
+export const WrapperBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 export const Container = styled.div`
   width: 1200px;
   height: 100%;
   flex-direction: colomn;
-  border: 1px solid black;
   padding: 80px 102px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
 `
@@ -105,4 +112,20 @@ export const DisLikeCount = styled.span``
 
 export const VideoArea = styled.iframe`
   
+`
+export const ButtonArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  padding: 87px 0px 87px 24px;
+  
+
+`
+
+export const BtnStyle = styled.button`
+  width: 179px;
+  height: 45px;
+  background-color: white;
+  margin-right:24px;
 `

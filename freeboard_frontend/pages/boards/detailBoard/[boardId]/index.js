@@ -4,7 +4,7 @@ import DetailBoard from '../../../../src/components/units/board/detail/DetailBoa
 
 export default function DetailBoardPage () {
   return (
-    <DetailBoard></DetailBoard>
+    <DetailBoard />
   )
   
 }

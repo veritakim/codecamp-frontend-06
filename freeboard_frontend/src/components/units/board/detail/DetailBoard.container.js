@@ -6,7 +6,6 @@ import DetailBoardUi from './DetailBoard.presenter'
 
 export default function DetailBoard () {
 const router = useRouter()
-  console.log("router", router)
 
   const {data} = useQuery(FETCH_BOARD, {
     variables: {
@@ -14,12 +13,25 @@ const router = useRouter()
     }
   })
 
-  console.log(data)
 
+  // 수정하기
+  const onClickEdit = (event) => {
+    alert(event.target.id);
+    router.push(`/boards/detailBoard/${event.target.id}/edit`)
+  }
+
+  // 삭제하기
+  const onClickDelete = (event) => {
+    // alert(event.target.id)
+  }
   
 
   return (
-    <DetailBoardUi data={data}></DetailBoardUi>
+    <DetailBoardUi 
+    data={data}
+    onClickEdit={onClickEdit}
+    onClickDelete={onClickDelete}
+     />
 
   )
 }
