@@ -128,4 +128,5 @@ export const BtnStyle = styled.button`
   height: 45px;
   background-color: white;
   margin-right:24px;
+  border: 1px solid #BDBDBD;
 `

@@ -78,7 +78,7 @@ export default function DetailBoardUi (props) {
         </DetailContents>
       </Container>
       <ButtonArea>
-        <BtnStyle>목록으로</BtnStyle>
+        <BtnStyle onClick={props.onClickBoardsList}>목록으로</BtnStyle>
         <BtnStyle onClick={props.onClickEdit} id={props.data?.fetchBoard._id}>수정하기</BtnStyle>
         <BtnStyle onClick={props.onClickDelete} id={props.data?.fetchBoard._id}>삭제하기</BtnStyle>
       </ButtonArea>

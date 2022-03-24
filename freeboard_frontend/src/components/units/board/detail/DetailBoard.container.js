@@ -16,13 +16,18 @@ const router = useRouter()
 
   // 수정하기
   const onClickEdit = (event) => {
-    alert(event.target.id);
-    router.push(`/boards/detailBoard/${event.target.id}/edit`)
+    router.push(`/boards/detailBoard/${router.query.boardId}/edit`)
   }
 
   // 삭제하기
   const onClickDelete = (event) => {
     // alert(event.target.id)
+  }
+
+  // 목록으로 
+
+  const onClickBoardsList = () => {
+    router.push(`/boards`)
   }
   
 
@@ -31,6 +36,7 @@ const router = useRouter()
     data={data}
     onClickEdit={onClickEdit}
     onClickDelete={onClickDelete}
+    onClickBoardsList={onClickBoardsList}
      />
 
   )

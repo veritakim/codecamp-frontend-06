@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import {useMutation} from '@apollo/client'
+import {useMutation, useQuery} from '@apollo/client'
 import { useRouter } from 'next/router'
-import { CREATE_BOARD } from './BoardWrite.queries';
+import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
 import BoardWriteUi from './BoardWirte.presenter';
 
 export default function BoardWritePage (props) {
@@ -23,6 +23,7 @@ const [addrDetailError, setAddrDetailError] = useState("");
 
 const router = useRouter()
 const [createBoard] = useMutation(CREATE_BOARD)
+const [updateBoard] = useMutation(UPDATE_BOARD)
 const [isActive, setIsActive] = useState(false)
 
 
@@ -139,24 +140,34 @@ const signCheck = async () => {
 
       router.push(`detailBoard/${result.data.createBoard._id}`)
       alert("글이 작성되었습니다")
-      /**
-       data.createBoard.contents 
-        title
-        writer
-        youtubeUrl
-        _id
-       */
 
     } catch (error) {
       console.log(error.message)
     }
   }
 }
+  // 보드 수정 함수
+const boardEdit = async (props) => {
+  try {
+    const result = await updateBoard({
+      variables: {
+        updateBoardInput:{
+          title: title,
+          contents: content
+        },
+        password: password,
+        boardId: router.query.boardId
+      }
+    })
+    // console.log(result)
 
+    router.push(`/boards/detailBoard/${result.data.updateBoard._id}`)
+    alert("글이 수정되었습니다")
 
-  const boardEdit = () => {
-    alert("h2")
+  } catch (error) {
+    alert(error.message)
   }
+}
 
  return (
   <BoardWriteUi
@@ -178,6 +189,7 @@ const signCheck = async () => {
   addrError={addrError}
   addrDetailError={addrDetailError}
   isEdit={props.isEdit}
+  data={props.data}
    /> 
   )
 }

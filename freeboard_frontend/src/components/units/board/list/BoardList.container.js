@@ -12,8 +12,12 @@ export default function BoardList () {
     router.push(`/boards/detailBoard/${event.target.id}`)
   }
 
+  const MoveWritePage = () => {
+    router.push(`/boards/new`)
+  }
+
 
   return (
-    <BoardListUi data={data} onClickDetailMove={onClickDetailMove}></BoardListUi>
+    <BoardListUi data={data} onClickDetailMove={onClickDetailMove} MoveWritePage={MoveWritePage}></BoardListUi>
   )
 }
