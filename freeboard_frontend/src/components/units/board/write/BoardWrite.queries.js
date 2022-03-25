@@ -45,3 +45,4 @@ mutation updateBoard($updateBoardInput: UpdateBoardInput!, $password: String, $b
 }
 
 `
+
