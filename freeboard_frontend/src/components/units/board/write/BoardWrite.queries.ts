@@ -24,6 +24,11 @@ query fetchBoard($boardId: ID!){
     likeCount
     dislikeCount
     createdAt
+    boardAddress {
+      zipcode
+      address
+      addressDetail
+    }
   }
 }
 

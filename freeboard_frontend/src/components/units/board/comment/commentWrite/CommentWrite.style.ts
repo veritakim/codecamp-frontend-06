@@ -8,6 +8,7 @@ export const CommentArea = styled.div`
 
 export const CommentWriterArea = styled.div`
   padding-top: 40px;
+  padding-bottom: 40px;
 `;
 export const CommentText = styled.div`
   font-size: 18px;

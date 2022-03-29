@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import BoardWriteUi from "./BoardWirte.presenter";
@@ -76,46 +76,21 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
     }
   }
 
-  function onChangeZipCode(event: ChangeEvent<HTMLInputElement>) {
-    setZipcode(event.target.value);
-  }
 
-  function onChangeAddr(event: ChangeEvent<HTMLInputElement>) {
-    setAddr(event.target.value);
-  }
-
-  function onChangeAddrDetail(event: ChangeEvent<HTMLInputElement>) {
-    setAddrDetail(event.target.value);
-  }
 
   function onChageYoutue(event: ChangeEvent<HTMLInputElement>) {
     setYoutube(event.target.value);
   }
 
   const signCheck = async () => {
-    if (!writer) {
-      setNameError("이름을 입력해주세요");
-    }
+    // error message
+    if (!writer) {setNameError("이름을 입력해주세요"); }
+    if (!password) {setPassWordError("비밀번호를 입력해주세요");    }
+    if (!title) {setTitleError("제목을 입력해주세요");}
+    if (!content) {setContentError("내용을 입력해주세요");}
+    if (!addr) {setAddrError("주소를 입력해주세요");}
+    if (!addrDetail) {setAddrDetailError("상세 주소를 입력하세요");}
 
-    if (!password) {
-      setPassWordError("비밀번호를 입력해주세요");
-    }
-
-    if (!title) {
-      setTitleError("제목을 입력해주세요");
-    }
-
-    if (!content) {
-      setContentError("내용을 입력해주세요");
-    }
-
-    if (!addr) {
-      setAddrError("주소를 입력해주세요");
-    }
-
-    if (!addrDetail) {
-      setAddrDetailError("상세 주소를 입력하세요");
-    }
 
     if (writer !== "" && password !== "" && title !== "" && content !== "") {
       try {
@@ -139,7 +114,7 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
         router.push(`detailBoard/${result.data.createBoard._id}`);
         alert("글이 작성되었습니다");
       } catch (error: any) {
-        console.log(error.message);
+        alert(error.message);
       }
     }
   };
@@ -152,6 +127,7 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       };
       if (title) variables.title = title;
       if (content) variables.contents = content;
+      if (youtube) variables.youtubeUrl = youtube;
 
       // router.push(`/boards/detailBoard/${result.data.updateBoard._id}`);
       router.push(`/boards/detailBoard/${router.query.boardId}`);
@@ -161,18 +137,49 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
     }
   };
 
+  // addr modal
+  const [isOpen, setIsOpen] = useState(false);
+
+  const setToggle = () => {
+    setIsOpen(prev => !prev)
+  }
+
+  const handleComplete = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = ''; 
+   
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      }
+      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+    }
+    
+    setZipcode(data.zonecode);
+    setAddr(fullAddress);
+
+    setToggle()
+  } 
+  function onChangeAddrDetail(event: ChangeEvent<HTMLInputElement>) {
+    setAddrDetail(event.target.value);
+  }
+
+
+
   return (
     <BoardWriteUi
       onChangeName={onChangeName}
       onChangePass={onChangePass}
       onChangeTitle={onChangeTitle}
       onChangeContent={onChangeContent}
-      onChangeZipCode={onChangeZipCode}
-      onChangeAddr={onChangeAddr}
       onChangeAddrDetail={onChangeAddrDetail}
       onChageYoutue={onChageYoutue}
       signCheck={signCheck}
       boardEdit={boardEdit}
+      handleComplete={handleComplete}
       isActive={isActive}
       nameError={nameError}
       passWordError={passWordError}
@@ -182,6 +189,12 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       addrDetailError={addrDetailError}
       isEdit={props.isEdit}
       data={props.data}
+      isOpen={isOpen}
+      setToggle={setToggle}
+      onComplete
+      zipcode={zipcode}
+      addr={addr}
+
     />
   );
 }

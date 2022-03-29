@@ -1,4 +1,6 @@
 import { IBoardWriteUiProps } from "./BoardWirte.types";
+import { Modal } from "antd";
+import DaumPostcode from 'react-daum-postcode';
 import {
   MyPage,
   Wrapper,
@@ -30,7 +32,7 @@ import {
 } from "./BoardWrite.style";
 
 export default function BoardWriteUi(props: IBoardWriteUiProps) {
-  console.log("데이터", props.data);
+  console.log("데이터", props.data?.fetchBoard.boardAddress);
 
   return (
     <MyPage>
@@ -84,18 +86,25 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
         <MyAddrWrapper>
           <MySmallTitle>주소</MySmallTitle>
           <MyAddrCode>
-            <MyAddrCodeInput
-              type="text"
-              placeholder="07250"
-              onChange={props.onChangeZipCode}
-            />
-            <MyAddrBtn>우편번호 검색</MyAddrBtn>
+            {props.isEdit ? 
+              <MyAddrCodeInput type="text" defaultValue={props.data?.fetchBoard.boardAddress.zipcode} readOnly />
+            :
+             <MyAddrCodeInput type="text" value={props.zipcode} readOnly/>
+             }
+            <MyAddrBtn onClick={props.setToggle}>우편번호 검색</MyAddrBtn>
           </MyAddrCode>
-          <MyMiddleInput type="text" onChange={props.onChangeAddr} />
+          {props.isEdit ? 
+            <MyMiddleInput type="text" defaultValue={props.data?.fetchBoard.boardAddress.address} readOnly/>
+            :
+            <MyMiddleInput type="text" value={props.addr} readOnly/>
+          }
           <ErrorDiv>{props.addrError}</ErrorDiv>
         </MyAddrWrapper>
         <MyAddrWrappert>
-          <MyMiddleInput type="text" onChange={props.onChangeAddrDetail} />
+          <MyMiddleInput type="text" 
+            placeholder="상세주소 입력" 
+            onChange={props.onChangeAddrDetail}  
+            defaultValue={props.data?.fetchBoard.boardAddress.addressDetail}/>
           <ErrorDiv>{props.addrDetailError}</ErrorDiv>
         </MyAddrWrappert>
 
@@ -105,6 +114,7 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
             type="text"
             placeholder="링크를 복사해주세요"
             onChange={props.onChageYoutue}
+            defaultValue={props.data?.fetchBoard.youtubeUrl}
           />
         </MyMiddleWrapper>
 
@@ -146,6 +156,14 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
           </MyRegisterBtn>
         </MyRegisterBtnDiv>
       </Wrapper>
+      {props.isOpen && 
+        <Modal
+        visible={true}
+        onOk={props.setToggle}
+        onCancel={props.setToggle}>
+          <DaumPostcode onComplete={props.handleComplete}  />
+        </Modal>
+      }
     </MyPage>
   );
 }

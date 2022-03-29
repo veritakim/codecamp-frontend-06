@@ -20,7 +20,6 @@ import {
   DetailTitle,
   DetailPictureBox,
   DetailContent,
-  DetailImg,
   DetailVideo,
   DetailReactionBox,
   ThumbsUp,
@@ -37,7 +36,7 @@ import CommentListBoard from "../comment/commentList/CommentBoardList.container"
 import ReactPlayer from 'react-player';
 
 export default function DetailBoardUi(props: DetailBoardUiProps) {
-  console.log(props);
+
   return (
     <WrapperBox>
       <Container>
@@ -70,8 +69,11 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
           <DetailContent>{props.data?.fetchBoard.contents}</DetailContent>
           <DetailVideo>
             {/* <VideoArea src={props.data?.fetchBoard.youtubeUrl}></VideoArea> */}
-            <ReactPlayer url="https://www.youtube.com/embed/RNj-GhxPM0g" 
-                        width={486} height={240} playing controls muted></ReactPlayer>
+            {props.data?.fetchBoard.youtubeUrl? 
+              <ReactPlayer url={props.data?.fetchBoard.youtubeUrl} 
+              width={486} height={240} playing controls muted></ReactPlayer> : ""
+            }
+            
           </DetailVideo>
           <DetailReactionBox>
             <ThumbsUp onClick={props.onClickLike}>
