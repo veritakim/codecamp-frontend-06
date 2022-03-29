@@ -1,22 +1,23 @@
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  FETCH_BOARD,
-  DELETE_BOARD,
-  FETCH_BOARD_COMMENTS,
-} from "./DetailBoard.queries";
+import { FETCH_BOARD, DELETE_BOARD, LIKE_BOARD, DISLIKE_BOARD} from "./DetailBoard.queries";
 import DetailBoardUi from "./DetailBoard.presenter";
 
 export default function DetailBoard() {
   const router = useRouter();
+  const [likeCount, setLikeCount] = useState();
+  const [disLikeCount, setDisLikeCount] = useState();
 
+  const [deleteBoard] = useMutation(DELETE_BOARD);
+  const [likeBoard] = useMutation(LIKE_BOARD);
+  const [dislikeBoard] = useMutation(DISLIKE_BOARD);
+  
   const { data } = useQuery(FETCH_BOARD, {
     variables: {
       boardId: router.query.boardId,
     },
   });
-  const [deleteBoard] = useMutation(DELETE_BOARD);
 
   // 수정하기
   const onClickEdit = () => {
@@ -38,18 +39,33 @@ export default function DetailBoard() {
   const onClickBoardsList = () => {
     router.push(`/boards`);
   };
+  
+  // 좋아요
+  const onClickLike = async() => {
+    const likeResult = await likeBoard({
+      variables: {
+        boardId: router.query.boardId
+      }
+    })
 
-  // 댓글 가져오기
-  const { data: data2 } = useQuery(FETCH_BOARD_COMMENTS, {
-    variables: {
-      boardId: router.query.boardId,
-    },
-  });
+    // console.log("like", likeResult.data.likeBoard);
+    setLikeCount(likeResult.data.likeBoard)
+  } 
 
-  // 댓글 작성
-  const [writer, setWriter] = useState("");
-  const [content, setContent] = useState("");
-  const [password, setPassword] = useState("");
+  // 싫어요
+
+  const onClickDisLike = async () => {
+    const dislikResult = await dislikeBoard({
+      variables: {
+        boardId: router.query.boardId
+      }
+    })
+
+    // console.log("result", dislikResult.data.dislikeBoard)
+    setDisLikeCount(dislikResult.data.dislikeBoard)
+  }
+
+
 
   return (
     <DetailBoardUi
@@ -57,7 +73,10 @@ export default function DetailBoard() {
       onClickEdit={onClickEdit}
       onClickDelete={onClickDelete}
       onClickBoardsList={onClickBoardsList}
-      data2={data2}
+      onClickLike={onClickLike}
+      onClickDisLike={onClickDisLike}
+      likeCount={likeCount}
+      disLikeCount={disLikeCount}
     />
   );
 }

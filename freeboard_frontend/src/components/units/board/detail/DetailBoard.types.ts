@@ -5,5 +5,8 @@ export interface DetailBoardUiProps {
   onClickBoardsList: (event: MouseEvent<HTMLButtonElement>) => void;
   onClickEdit: (event: MouseEvent<HTMLButtonElement>) => void;
   onClickDelete: (event: MouseEvent<HTMLButtonElement>) => void;
-  data2: any;
+  onClickLike: (event: MouseEvent<HTMLDivElement>) => void;
+  onClickDisLike: (event: MouseEvent<HTMLDivElement>) => void;
+  likeCount: any;
+  disLikeCount: any;
 }

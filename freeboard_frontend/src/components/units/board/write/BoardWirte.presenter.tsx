@@ -26,7 +26,7 @@ import {
   MyMainRadio,
   MyRegisterBtnDiv,
   MyRegisterBtn,
-  ErrorDiv,
+  ErrorDiv
 } from "./BoardWrite.style";
 
 export default function BoardWriteUi(props: IBoardWriteUiProps) {

@@ -4,7 +4,7 @@
 // 문자열 전체의 짝/홀수 인덱스가 아니라, 단어(공백을 기준)별로 짝/홀수 인덱스를 판단해야합니다.
 // 첫 번째 글자는 0번째 인덱스로 보아 짝수번째 알파벳으로 처리해야 합니다.
 
-function solution(s) {
+function solution (s) {
   let answer = "";
 
   s.split(" ").map((el) => {
@@ -19,4 +19,39 @@ function solution(s) {
   });
 
   return answer.slice(0, answer.length - 1);
+}
+
+
+function solution2 (s) {
+  let answer = "";
+  
+  // 단어별로 인덱스를 구분하기 위한 변수
+  let idx = 0;
+  for (let i = 0; i < s.length; i++) {
+      if(s[i] === " ") {
+          answer += s[i] // 얘가 어차피 공백이니
+          idx = 0;
+      } else {
+          answer += idx % 2 === 1 
+                   ? s[i].toLowerCase()
+                   : s[i].toUpperCase();
+          idx++
+      }
+  }
+
+  return answer
+}
+
+function solution3 (s) {
+  const answer = s.split(" ")
+                  .map((str) => {
+                      return str.split("")
+                              .map((letter, i) => {
+                            return i % 2 === 0 
+                                  ? letter.toUpperCase() 
+                                  : letter.toLowerCase(); 
+                      }).join("")
+                  }).join(" ")
+  
+  return answer
 }

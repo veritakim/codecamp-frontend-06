@@ -32,18 +32,17 @@ export const FETCH_BOARD_COMMENTS = gql`
   }
 `;
 
-// export const CREATE_BOARD_COMMENT = gql`
-//   mutation createBoardComment(
-//     $createBoardCommentInput: CreateBoardCommentInput!
-//     $boardId: ID!
-//   ) {
-//     createBoardComment(
-//       createBoardCommentInput: $CreateBoardCommentInput
-//       boardId: $boardId
-//     ) {
-//       _id
-//       writer
-//       contents
-//     }
-//   }
-// `;
+
+export const LIKE_BOARD = gql`
+mutation likeBoard($boardId: ID!) {
+  likeBoard(boardId: $boardId) 
+}
+`
+
+export const DISLIKE_BOARD = gql`
+  mutation dislikeBoard($boardId: ID!) {
+    dislikeBoard(boardId: $boardId)
+  }
+`
+  
+  

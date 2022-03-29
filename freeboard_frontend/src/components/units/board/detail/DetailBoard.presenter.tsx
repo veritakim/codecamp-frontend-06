@@ -5,7 +5,7 @@ import {
   faThumbsUp,
   faThumbsDown,
 } from "@fortawesome/free-regular-svg-icons";
-import { faMapMarkerAlt, faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons";
 import {
   Container,
   DetailHead,
@@ -27,24 +27,14 @@ import {
   ThumsDown,
   LikeCount,
   DisLikeCount,
-  VideoArea,
   WrapperBox,
   ButtonArea,
   BtnStyle,
-  CommentArea,
-  CommentWriterArea,
-  CommentText,
-  CommentWriterInput,
-  CommentWriter,
-  CommentContents,
-  CommentContentsArea,
-  CommentContentsBtnArea,
-  CommentRegisterBtn,
-  TextCount,
 } from "./DetailBoard.style";
 import { DetailBoardUiProps } from "./DetailBoard.types";
-import { cp } from "fs";
-import { FragmentsOnCompositeTypesRule } from "graphql";
+import CommentWriteBoard from "../comment/commentWrite/CommentWrite.container";
+import CommentListBoard from "../comment/commentList/CommentBoardList.container";
+import ReactPlayer from 'react-player';
 
 export default function DetailBoardUi(props: DetailBoardUiProps) {
   console.log(props);
@@ -80,15 +70,17 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
           <DetailContent>{props.data?.fetchBoard.contents}</DetailContent>
           <DetailVideo>
             {/* <VideoArea src={props.data?.fetchBoard.youtubeUrl}></VideoArea> */}
+            <ReactPlayer url="https://www.youtube.com/embed/RNj-GhxPM0g" 
+                        width={486} height={240} playing controls muted></ReactPlayer>
           </DetailVideo>
           <DetailReactionBox>
-            <ThumbsUp>
+            <ThumbsUp onClick={props.onClickLike}>
               <FontAwesomeIcon icon={faThumbsUp} />
-              <LikeCount>{props.data?.fetchBoard.likeCount}</LikeCount>
+              <LikeCount>{!props.likeCount ? props.data?.fetchBoard.likeCount : props.likeCount}</LikeCount>
             </ThumbsUp>
-            <ThumsDown>
+            <ThumsDown onClick={props.onClickDisLike}>
               <FontAwesomeIcon icon={faThumbsDown} />
-              <DisLikeCount>{props.data?.fetchBoard.dislikeCount}</DisLikeCount>
+              <DisLikeCount>{!props.disLikeCount? props.data?.fetchBoard.dislikeCount : props.disLikeCount}</DisLikeCount>
             </ThumsDown>
           </DetailReactionBox>
         </DetailContents>
@@ -100,31 +92,8 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
           삭제하기
         </BtnStyle>
       </ButtonArea>
-      <CommentArea>
-        <CommentWriterArea>
-          <CommentText>댓글</CommentText>
-          <CommentWriterInput>
-            <CommentWriter type="text" placeholder="작성자"></CommentWriter>
-            <CommentWriter
-              type="password"
-              placeholder="비밀번호"
-            ></CommentWriter>
-          </CommentWriterInput>
-          <CommentContentsArea>
-            <CommentContents placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."></CommentContents>
-            <CommentContentsBtnArea>
-              <TextCount>0 / 100</TextCount>
-              <CommentRegisterBtn>등록하기</CommentRegisterBtn>
-            </CommentContentsBtnArea>
-          </CommentContentsArea>
-        </CommentWriterArea>
-        <div>야야야</div>
-        <div>야야야</div>
-        <div>야야야</div>
-        <div>야야야</div>
-        <div>야야야</div>
-        <div>야야야</div>
-      </CommentArea>
+      <CommentWriteBoard />
+      <CommentListBoard />
     </WrapperBox>
   );
 }

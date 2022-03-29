@@ -82,7 +82,8 @@ export const DetailContent = styled.div`
 `;
 
 export const DetailVideo = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: center;
   padding-bottom: 162px;
 `;
 
@@ -96,17 +97,18 @@ export const ThumbsUp = styled.div`
   flex-direction: column;
   padding: 0px 59px 4px 0px;
   color: #ffd600;
+  cursor: pointer;
 `;
 
 export const ThumsDown = styled(ThumbsUp)`
   color: #828282;
   padding-right: 0px;
+  cursor: pointer;
 `;
 
 export const LikeCount = styled.span``;
 export const DisLikeCount = styled.span``;
 
-export const VideoArea = styled.iframe``;
 export const ButtonArea = styled.div`
   display: flex;
   flex-direction: row;
