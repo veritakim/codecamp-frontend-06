@@ -8,12 +8,13 @@ export const MyPage = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 101px 360px;
+  /* padding: 101px 360px; */
+  margin: 0 auto;
 `;
 
 export const Wrapper = styled.div`
   width: 1200px;
-  heigh: 100%;
+  height: 100%;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   padding: 60px 103px;
 `;
@@ -67,6 +68,8 @@ export const MyMiddleInput = styled.input`
   height: 52px;
   border: 1px solid #bdbdbd;
   padding-left: 16px;
+  cursor: default;
+  outline: none;
 `;
 
 export const MyMiddleText = styled.textarea`
@@ -92,6 +95,8 @@ export const MyAddrCodeInput = styled.input`
   border: 1px solid #bdbdbd;
   margin-right: 16px;
   text-align: center;
+  cursor: default;
+  outline: none;
 `;
 export const MyAddrBtn = styled.button`
   width: 124px;

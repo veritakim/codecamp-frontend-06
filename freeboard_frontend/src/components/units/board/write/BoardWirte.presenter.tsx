@@ -86,18 +86,17 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
         <MyAddrWrapper>
           <MySmallTitle>주소</MySmallTitle>
           <MyAddrCode>
-            {props.isEdit ? 
-              <MyAddrCodeInput type="text" defaultValue={props.data?.fetchBoard.boardAddress.zipcode} readOnly />
-            :
-             <MyAddrCodeInput type="text" value={props.zipcode} readOnly/>
-             }
+             <MyAddrCodeInput type="text" 
+             value={
+               props.zipcode || 
+               props.data?.fetchBoard.boardAddress?.zipcode || ""} readOnly/>
             <MyAddrBtn onClick={props.setToggle}>우편번호 검색</MyAddrBtn>
           </MyAddrCode>
-          {props.isEdit ? 
-            <MyMiddleInput type="text" defaultValue={props.data?.fetchBoard.boardAddress.address} readOnly/>
-            :
-            <MyMiddleInput type="text" value={props.addr} readOnly/>
-          }
+            <MyMiddleInput type="text" 
+              value={
+               props.addr || 
+               props.data?.fetchBoard.boardAddress?.address || ""} readOnly/>
+        
           <ErrorDiv>{props.addrError}</ErrorDiv>
         </MyAddrWrapper>
         <MyAddrWrappert>

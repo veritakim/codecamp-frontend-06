@@ -22,7 +22,7 @@ export const CommentWriter = styled.input`
   width: 180px;
   height: 52px;
   margin-right: 24px;
-  padding-left: 10px;
+  padding-left: 14px;
   border: 1px solid #bdbdbd;
 `;
 
@@ -35,7 +35,7 @@ export const CommentContents = styled.textarea`
   width: 100%;
   height: 108px;
   resize: none;
-  padding: 20px;
+  padding: 14px;
   border: none;
   font-size: 16px;
 `;
@@ -52,6 +52,7 @@ export const CommentContentsBtnArea = styled.div`
 export const TextCount = styled.div`
   font-size: 16px;
   color: #bdbdbd;
+  padding: 10px;
 `;
 
 export const CommentRegisterBtn = styled.button`

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Tooltip } from "antd";
 
 export const WrapperBox = styled.div`
   width: 100%;
@@ -98,6 +99,7 @@ export const ThumbsUp = styled.div`
   padding: 0px 59px 4px 0px;
   color: #ffd600;
   cursor: pointer;
+  font-size: 18px;
 `;
 
 export const ThumsDown = styled(ThumbsUp)`
@@ -189,3 +191,8 @@ export const CommentRegisterBtn = styled.button`
   color: white;
   cursor: pointer;
 `;
+
+export const TooltipStyle = styled(Tooltip)`
+  background-color: black;
+
+`

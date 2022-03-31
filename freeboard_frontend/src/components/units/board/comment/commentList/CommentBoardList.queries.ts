@@ -1,4 +1,4 @@
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
 
 
 export const FETCH_BOARD_COMMENTS = gql`
@@ -11,22 +11,6 @@ export const FETCH_BOARD_COMMENTS = gql`
     }
   }
 `;
-
-// export const CREATE_BOARD_COMMENT = gql`
-//   mutation createBoardComment(
-//     $createBoardCommentInput: CreateBoardCommentInput!
-//     $boardId: ID!
-//   ) {
-//     createBoardComment(
-//       createBoardCommentInput: $CreateBoardCommentInput
-//       boardId: $boardId
-//     ) {
-//       _id
-//       writer
-//       contents
-//     }
-//   }
-// `;
 
 
 export const DELETEBOARD_COMMENT = gql`

@@ -34,16 +34,15 @@ import { DetailBoardUiProps } from "./DetailBoard.types";
 import CommentWriteBoard from "../comment/commentWrite/CommentWrite.container";
 import CommentListBoard from "../comment/commentList/CommentBoardList.container";
 import ReactPlayer from 'react-player';
+import { Tooltip } from "antd";
 
 export default function DetailBoardUi(props: DetailBoardUiProps) {
-
+  console.log("주소", props.data)
   return (
     <WrapperBox>
       <Container>
         <DetailHead>
           <UserInfo>
-            {/* <UserCircle css={css`
-              font-size: 46px;`}> */}
             <UserCircle>
               <FontAwesomeIcon icon={faCircleUser} />
             </UserCircle>
@@ -57,7 +56,9 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
               <FontAwesomeIcon icon={faShareSquare} />
             </UserIconStyle>
             <UserIconStyle>
-              <FontAwesomeIcon icon={faMapMarkerAlt} />
+              <Tooltip title={props.data?.fetchBoard.boardAddress ? props.data?.fetchBoard.boardAddress.address : ""} color={"rgba(0, 0, 0, 0.5)"}>
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+              </Tooltip>
             </UserIconStyle>
           </UserIcon>
         </DetailHead>
@@ -94,6 +95,7 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
           삭제하기
         </BtnStyle>
       </ButtonArea>
+   
       <CommentWriteBoard />
       <CommentListBoard />
     </WrapperBox>

@@ -1,6 +1,9 @@
 import '../styles/globals.css'
 import "antd/dist/antd.css";
 import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client'
+import Layout from '../src/commons/layout';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 function MyApp({ Component, pageProps }) {
@@ -12,7 +15,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <Layout>
+       <Component {...pageProps} />
+      </Layout>
     </ApolloProvider>
 
   )

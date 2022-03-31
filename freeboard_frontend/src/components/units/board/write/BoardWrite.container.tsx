@@ -11,9 +11,9 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [zipcode, setZipcode] = useState("");
-  const [addr, setAddr] = useState("");
-  const [addrDetail, setAddrDetail] = useState("");
-  const [youtube, setYoutube] = useState("");
+  const [address, setAddr] = useState("");
+  const [addressDetail, setAddrDetail] = useState("");
+  const [youtubeUrl, setYoutube] = useState("");
 
   const [nameError, setNameError] = useState("");
   const [passWordError, setPassWordError] = useState("");
@@ -88,8 +88,8 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
     if (!password) {setPassWordError("비밀번호를 입력해주세요");    }
     if (!title) {setTitleError("제목을 입력해주세요");}
     if (!content) {setContentError("내용을 입력해주세요");}
-    if (!addr) {setAddrError("주소를 입력해주세요");}
-    if (!addrDetail) {setAddrDetailError("상세 주소를 입력하세요");}
+    if (!address) {setAddrError("주소를 입력해주세요");}
+    if (!addressDetail) {setAddrDetailError("상세 주소를 입력하세요");}
 
 
     if (writer !== "" && password !== "" && title !== "" && content !== "") {
@@ -101,17 +101,17 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
               password: password,
               title: title,
               contents: content,
-              youtubeUrl: youtube,
+              youtubeUrl,
               boardAddress: {
-                zipcode: zipcode,
-                address: addr,
-                addressDetail: addrDetail,
+                zipcode,
+                address,
+                addressDetail,
               },
             },
           },
         });
 
-        router.push(`detailBoard/${result.data.createBoard._id}`);
+        router.push(`/detailBoard/${result.data.createBoard._id}`);
         alert("글이 작성되었습니다");
       } catch (error: any) {
         alert(error.message);
@@ -120,21 +120,32 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
   };
   // 보드 수정 함수
   const boardEdit = async () => {
-    try {
-      const variables: IBoardEditVariables = {
-        password,
-        boardId: router.query.boardId,
-      };
-      if (title) variables.title = title;
-      if (content) variables.contents = content;
-      if (youtube) variables.youtubeUrl = youtube;
-
-      // router.push(`/boards/detailBoard/${result.data.updateBoard._id}`);
-      router.push(`/boards/detailBoard/${router.query.boardId}`);
-      alert("글이 수정되었습니다");
-    } catch (error: any) {
-      alert(error.message);
+    const updateBoardInput: IBoardEditVariables = {};
+    if (title) updateBoardInput.title = title;
+    if (content) updateBoardInput.contents = content;
+    if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
+    if (zipcode || address || addressDetail) {
+      updateBoardInput.boardAddress = {};
+      if (zipcode) updateBoardInput.boardAddress.zipcode = zipcode;
+      if (address) updateBoardInput.boardAddress.address = address;
+      if (addressDetail)
+        updateBoardInput.boardAddress.addressDetail = addressDetail;
     }
+
+    try {
+      await updateBoard({
+        variables: {
+          boardId: router.query.boardId,
+          password,
+          updateBoardInput,
+        },
+      });
+      alert("수정이 완료되었습니다.")
+      router.push(`/boards/${router.query.boardId}`);
+    } catch (error: any) {
+      alert(error.message)
+    }
+
   };
 
   // addr modal
@@ -193,7 +204,7 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       setToggle={setToggle}
       onComplete
       zipcode={zipcode}
-      addr={addr}
+      addr={address}
 
     />
   );

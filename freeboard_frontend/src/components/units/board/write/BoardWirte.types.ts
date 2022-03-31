@@ -33,7 +33,10 @@ export interface IBoardWriteUiProps {
 export interface IBoardEditVariables {
   title?: string;
   contents?: string;
-  password: string;
-  boardId: any;
   youtubeUrl?: string;
+  boardAddress?: {
+    zipcode?: string;
+    address?: string;
+    addressDetail?: string;
+  }
 }
