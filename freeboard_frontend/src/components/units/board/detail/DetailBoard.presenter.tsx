@@ -69,7 +69,6 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
           </DetailPictureBox>
           <DetailContent>{props.data?.fetchBoard.contents}</DetailContent>
           <DetailVideo>
-            {/* <VideoArea src={props.data?.fetchBoard.youtubeUrl}></VideoArea> */}
             {props.data?.fetchBoard.youtubeUrl? 
               <ReactPlayer url={props.data?.fetchBoard.youtubeUrl} 
               width={486} height={240} playing controls muted></ReactPlayer> : ""

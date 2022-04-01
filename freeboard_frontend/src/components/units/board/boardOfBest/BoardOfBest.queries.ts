@@ -20,3 +20,16 @@ export const FETCH_BOARDS_COUNT = gql`
     fetchBoardsCount
   }
 `
+
+export const FETCH_BOARDS_OF_THE_BEST = gql`
+  query fetchBoardsOfTheBest {
+    fetchBoardsOfTheBest {
+      writer
+      title
+      contents
+      likeCount
+      images
+      createdAt
+    }
+  }
+`

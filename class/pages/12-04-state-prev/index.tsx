@@ -6,15 +6,10 @@ export default function StatePrevPage () {
 
   const onClickCount = () => {
     setCount((prev) => (prev + 1))
-
     
     setCount((prev) => (prev + 1))
     
-    
     setCount((prev) => (prev + 1))
-    
-    
-    
     
     setCount((prev) => (prev + 1))
   }

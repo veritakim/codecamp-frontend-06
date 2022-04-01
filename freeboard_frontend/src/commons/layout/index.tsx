@@ -8,16 +8,12 @@ import { useRouter } from "next/router";
 
 const Body = styled.div`
   height: 100%;
+  margin: 0 auto;
 `
 const BodyWrapper = styled.div`
   display: flex;
 `
 
-const LayoutSidebar = styled.div`
-  height: 100%;
-  width: 100px;
-  background-color: green;
-`
 
 // const HIDDEN_HEADERS = [
 //   "/12-05-modal-refactoring",
@@ -40,7 +36,7 @@ export default function Layout (props: ILayoutProps) {
       <LayoutHeader />
       <Layoutbanner />
       <BodyWrapper>
-        <LayoutSidebar>여기는 사이드바</LayoutSidebar>
+        {/* <LayoutSidebar>여기는 사이드바</LayoutSidebar> */}
         <Body>{props.children}</Body>
       </BodyWrapper>
       <LayoutFooter />
