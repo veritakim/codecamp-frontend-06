@@ -9,7 +9,7 @@ export default function BoardOfBestUi(props: BoardOfBestUiProps) {
   return (
     <Fragment>
       {props.data?.fetchBoardsOfTheBest.map((el, index) => (
-        <S.ContainerBox key={index}>
+        <S.ContainerBox key={index} id={el._id} onClick={props.onClickMovePage}>
           {el.images.length !== 0
           ?<S.ImageArea src={el.images} />
           : <S.ImageArea src="/landing.jpeg" />

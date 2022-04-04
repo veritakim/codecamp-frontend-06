@@ -15,7 +15,7 @@ export default function BoardListUi(props: BoardListUiProps) {
         <S.Table>
           <tr>
             <S.Th>번호</S.Th>
-            <S.Th>제목</S.Th>
+            <S.ThTitle>제목</S.ThTitle>
             <S.Th>작성자</S.Th>
             <S.Th>날짜</S.Th>
           </tr>
@@ -33,7 +33,7 @@ export default function BoardListUi(props: BoardListUiProps) {
       </S.Wrapper>
       <S.UnderLine>
       <S.PageWrapper>
-        <S.MoveBtn onClick={props.onClickPrev} disabled={props.startPage === 1 ? true : false} style={{color: props.startPage === 1 ? "gray" : "black"}}>◁</S.MoveBtn>
+        <S.MoveBtn onClick={props.onClickPrev} disabled={props.startPage === 1 ? true : false} style={{color: props.startPage === 1 ? "#BDBDBD" : "black"}}>◁</S.MoveBtn>
         {
           new Array(10).fill(1).map((_, index) => index + props.startPage <= props.lastPage ?(
             <S.SpanNumber key={index+props.startPage} 

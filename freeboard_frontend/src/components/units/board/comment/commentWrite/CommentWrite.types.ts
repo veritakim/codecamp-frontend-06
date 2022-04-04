@@ -10,5 +10,15 @@ export interface CommentWriteUiProps {
   writer: string;
   contents: string;
   password: string;
-  rateValue: number;
+  rating: number;
+  el: any;
+  isEdit: boolean;
+  commentUpdate: (event: MouseEvent<HTMLButtonElement>) => void;
 } 
+
+export interface CommentWriteProps {
+  el: any;
+  isEdit: boolean;
+  setIsEdit: any;
+}
+

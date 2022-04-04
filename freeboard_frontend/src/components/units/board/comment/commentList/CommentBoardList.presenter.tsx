@@ -1,81 +1,29 @@
 // import { CommentArea } from "./CommentBoardList.style";
 import { CommentBoardListUiProps } from "./CommentBoardList.types";
-import styled from "@emotion/styled";
 import Avatar from "antd/lib/avatar/avatar";
-import { UserOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { UserOutlined} from '@ant-design/icons';
 import Modal from "antd/lib/modal/Modal";
-import { useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { DELETEBOARD_COMMENT, FETCH_BOARD_COMMENTS } from "./CommentBoardList.queries";
 import { useRouter } from "next/router";
 import { Rate } from "antd";
+import * as S from "./CommentBoardList.style"
+import CommentWriteBoard from "../commentWrite/CommentWrite.container";
 
-const AvatarArea = styled.div`
-  padding: 5px 16px 0 0;
-`
-const CommentArea = styled.div`
- display: flex;
- width: 1200px;
- height: 130px;
- justify-content: space-between; 
- border-bottom: 1px solid #BDBDBD;
- margin-top: 20px;
-`
-const NameContentArea = styled.div`
-  padding-right: 200px;
-`
-const NameStar = styled.div`
-  display: flex;
-  margin-bottom: 4px;
-  align-items: center;
-`
 
-const CommentRate = styled.div`
-  font-size: 20px;
-`
-
-const WriterName = styled.div`
-  font-size: 16px;
-  padding-right: 18px;
-  font-weight: 900;
-`
-const CommentContents = styled.div`
-  font-size: 16px;
-`
-
-const DateArea = styled.div`
-  padding-top: 20px;
-  font-size: 12px;
-  color: #BDBDBD;
-`
-
-const EditIcon = styled(EditOutlined)`
-
-  font-size: 18px;
-  padding-right: 16px;
-`
-const DeleteIcon = styled(DeleteOutlined)`
-  font-size: 18px;
-`
-
-const EditIconArea = styled.div`
-display: flex;
-`
-const CommentListArea = styled.div``
-
-const ContentsBox = styled.div`
-  display: flex;
-`
 
 export default function CommentBoardListUi(props: CommentBoardListUiProps) {
-  console.log(props);
+  console.log("list", props);
   const [commentId, setCommentId] = useState("")
   const [isOpen, setIsOpen] = useState(false);
   const [pass, setPass] = useState("");
   const [deleteBoardComment] = useMutation(DELETEBOARD_COMMENT)
   const router = useRouter();
 
-  const deleteCommentModal = (event) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const deleteCommentModal = (event: MouseEvent<HTMLDivElement>) => {
     // alert(event.currentTarget.id)
     setCommentId(event.currentTarget.id)
     modalToggle()
@@ -86,7 +34,7 @@ export default function CommentBoardListUi(props: CommentBoardListUiProps) {
     // alert(commentId);
   }
 
-  const onChangePassword = (event) => {
+  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPass(event.target.value)
     console.log(pass);
   }
@@ -111,42 +59,50 @@ export default function CommentBoardListUi(props: CommentBoardListUiProps) {
     }
   }
 
+  const updateComment = (event: MouseEvent<HTMLDivElement>) => {
+    setIsEdit(true)
+    // alert("안녕")
+  }
+
 
   return (
-    
-    <CommentListArea>
-      {props.data?.fetchBoardComments.map((el: any) => (
-      <CommentArea key={el._id}>
-        <ContentsBox>
-          <AvatarArea>
-            <Avatar size={40} icon={<UserOutlined />}></Avatar>
-          </AvatarArea>
+  
+    <S.CommentListArea>
+        {isEdit === false && (
+            <S.CommentArea key={props.el._id}>
+              <S.ContentsBox>
+                <S.AvatarArea>
+                  <Avatar size={40} icon={<UserOutlined />}></Avatar>
+                </S.AvatarArea>
 
-          <NameContentArea>
-            <NameStar>
-              <WriterName>{el.writer}</WriterName> 
-              <CommentRate><Rate disabled defaultValue={el.rating} /></CommentRate>
-            </NameStar>
-            <CommentContents>{el.contents} </CommentContents>
-            <DateArea>2012.02.05</DateArea>
-          </NameContentArea>
-        </ContentsBox>
+                <S.NameContentArea>
+                  <S.NameStar>
+                    <S.WriterName>{props.el.writer}</S.WriterName> 
+                    <S.CommentRate><Rate disabled defaultValue={props.el.rating} /></S.CommentRate>
+                  </S.NameStar>
+                  <S.CommentContents>{props.el.contents} </S.CommentContents>
+                  <S.DateArea>{props.el.createdAt.substring(0,10)}</S.DateArea>
+                </S.NameContentArea>
+              </S.ContentsBox>
 
-        <EditIconArea>
-          <EditIcon />
-          <DeleteIcon onClick={deleteCommentModal} id={el._id}/>
-        </EditIconArea>
-      </CommentArea>
-      ))}
+              <S.EditIconArea>
+                <S.EditIcon onClick={updateComment} />
+                <S.DeleteIcon onClick={deleteCommentModal} id={props.el._id}/>
+              </S.EditIconArea>
+            </S.CommentArea>
+        )}
+        {isEdit === true && <CommentWriteBoard isEdit={true} setIsEdit={setIsEdit} el={props.el}/>}
+
+      
       {isOpen && (
-      <Modal 
+        <Modal 
         visible={true} 
         onOk={onClickDeleteComment} 
         onCancel={modalToggle}>
           비밀번호: <input type="password" onChange={onChangePassword} />
       </Modal>
       )}
-    </CommentListArea>
+    </S.CommentListArea>
 
       
   );

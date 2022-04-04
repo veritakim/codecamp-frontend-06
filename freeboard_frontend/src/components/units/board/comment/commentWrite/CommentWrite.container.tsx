@@ -2,20 +2,24 @@ import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
 import CommentWriteUi from "./CommentWrite.presenter";
 import { useMutation } from "@apollo/client";
-import { CREATE_BOARD_COMMENT } from "./CommentWrite.queries";
+import { CREATE_BOARD_COMMENT, UPDATE_BOARD_COMMENT } from "./CommentWrite.queries";
 import { FETCH_BOARD_COMMENTS } from "../commentList/CommentBoardList.queries";
-import { IMutation, IMutationCreateBoardCommentArgs } from "../../../../../commons/types/generated/types";
+import { IMutation, IMutationCreateBoardCommentArgs, IMutationUpdateBoardCommentArgs, IUpdateBoardCommentInput } from "../../../../../commons/types/generated/types";
+import { CommentWriteProps } from "./CommentWrite.types";
 
-export default function CommentWriteBoard() {
+export default function CommentWriteBoard(props: CommentWriteProps) {
+  
   const router = useRouter();
   // const [createBoardComment] = useMutation(CREATE_BOARD_COMMENT);
   const [createBoardComments] = useMutation<Pick<IMutation, 'createBoardComment'>,IMutationCreateBoardCommentArgs>(CREATE_BOARD_COMMENT);
 
+  const [updateComment] = useMutation<Pick<IMutation, 'updateBoardComment'>, IMutationUpdateBoardCommentArgs>(UPDATE_BOARD_COMMENT);
+  // const [updateComment] = useMutation(UPDATE_BOARD_COMMENT);
   // 댓글 작성
   const [writer, setWriter] = useState("");
   const [contents, setContents] = useState("");
   const [password, setPassword] = useState("");
-  const [rateValue, setRateValue] = useState(0);
+  const [rating, setRating] = useState(0);
 
   const onChangeCommentWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
@@ -28,7 +32,7 @@ export default function CommentWriteBoard() {
     setPassword(event.target.value);
   }
   const handleChange = (value: any) => {
-    setRateValue(value);
+    setRating(value);
     // alert(value);
   }
   const commentRegister = async() => {
@@ -39,7 +43,7 @@ export default function CommentWriteBoard() {
                 writer,
                 password,
                 contents,
-                rating: Number(rateValue),
+                rating: Number(rating),
               }, 
               boardId: String(router.query.boardId) 
             }, 
@@ -53,11 +57,33 @@ export default function CommentWriteBoard() {
           setWriter("")
           setContents("")
           setPassword("")
-          setRateValue(0)
+          setRating(0)
       } catch (error: any) {
         alert(error.message)
       }
   }
+
+  // update
+  const commentUpdate = async() => {
+    if(!props.el?._id) return;
+    const updateBoardCommentInput: IUpdateBoardCommentInput = {};
+    if(contents) updateBoardCommentInput.contents = contents;
+    if(rating) updateBoardCommentInput.rating = rating;
+    try {
+      await updateComment({
+        variables:{
+          updateBoardCommentInput,
+          password,
+          boardCommentId: String(props.el._id)
+        }
+      })
+    } catch (e: any) {
+      alert(e.message)
+    }
+
+    props.setIsEdit?.(false);
+  }
+
 
   return (
     <CommentWriteUi 
@@ -68,9 +94,11 @@ export default function CommentWriteBoard() {
         writer={writer}
         contents={contents}
         password={password}
-        rateValue={rateValue}
-        
+        rating={rating}
         handleChange={handleChange}
+        isEdit={props.setIsEdit}
+        el={props.el}
+        commentUpdate={commentUpdate}
         />
   );
 }

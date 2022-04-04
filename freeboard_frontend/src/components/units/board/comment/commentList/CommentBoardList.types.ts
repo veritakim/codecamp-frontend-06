@@ -1,4 +1,5 @@
 
 export interface CommentBoardListUiProps {
-  data: any;
+  loadFunc: () => void;
+  el: any;
 }

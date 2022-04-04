@@ -21,23 +21,36 @@ export const Table = styled.table`
  border-bottom: 1px solid black;
  border-collapse:collapse;
  text-align: center;
+ table-layout: fixed;
  `
 
 export const Th = styled.th`
   font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
+
+export const ThTitle = styled(Th) `
+width: 650px;
+`
+
 
 export const Td = styled.td`
   border-top: 1px solid #bdbdbd;
   font-size: 16px;
   color: #4f4f4f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 export const IndexTd = styled(Td)`
   width: 100px;
 `;
 export const TitleTd = styled(Td)`
-  width: 700px;
+  width: 350px;
   cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 export const WriterTd = styled(Td)`
   width: 150px;

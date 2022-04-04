@@ -26,6 +26,9 @@ export const Body = styled.div`
 export const Title = styled.div`
   font-size: 18px;
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export const Middle = styled.div`

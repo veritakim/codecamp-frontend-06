@@ -48,7 +48,7 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
             </UserCircle>
             <UserNameBox>
               <UserName>{props.data?.fetchBoard.writer}</UserName>
-              <UserDate> Date : {props.data?.fetchBoard.createdAt}</UserDate>
+              <UserDate> Date : {props.data?.fetchBoard.createdAt.substring(0,10)}</UserDate>
             </UserNameBox>
           </UserInfo>
           <UserIcon>

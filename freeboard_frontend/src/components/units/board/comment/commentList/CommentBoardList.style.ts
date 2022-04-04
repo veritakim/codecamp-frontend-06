@@ -1,62 +1,62 @@
 import styled from "@emotion/styled";
-
+import { UserOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+export const AvatarArea = styled.div`
+  padding: 5px 16px 0 0;
+`
 export const CommentArea = styled.div`
-  border-top: 1px solid #bdbdbd;
-  width: 1200px;
-  height: 100%;
-`;
-
-export const CommentWriterArea = styled.div`
-  padding-top: 40px;
-`;
-export const CommentText = styled.div`
-  font-size: 18px;
-  padding-bottom: 40px;
-`;
-export const CommentWriterInput = styled.div`
-  padding-bottom: 20px;
-`;
-
-export const CommentWriter = styled.input`
-  width: 180px;
-  height: 52px;
-  margin-right: 24px;
-  padding-left: 10px;
-  border: 1px solid #bdbdbd;
-`;
-
-export const CommentContentsArea = styled.div`
-  width: 1200px;
-  border: 1px solid #bdbdbd;
-`;
-
-export const CommentContents = styled.textarea`
-  width: 100%;
-  height: 108px;
-  resize: none;
-  padding: 20px;
-  border: none;
-  font-size: 16px;
-`;
-
-export const CommentContentsBtnArea = styled.div`
-  height: 52px;
-  border-top: 1px solid #bdbdbd;
+ display: flex;
+ width: 1200px;
+ height: 130px;
+ justify-content: space-between; 
+ border-bottom: 1px solid #BDBDBD;
+ margin-top: 20px;
+`
+export const NameContentArea = styled.div`
+  padding-right: 200px;
+`
+export const NameStar = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-item: center;
-`;
+  margin-bottom: 4px;
+  align-items: center;
+`
 
-export const TextCount = styled.div`
+export const CommentRate = styled.div`
+  font-size: 20px;
+`
+
+export const WriterName = styled.div`
   font-size: 16px;
-  color: #bdbdbd;
-`;
+  padding-right: 18px;
+  font-weight: 900;
+`
+export const CommentContents = styled.div`
+  font-size: 16px;
+`
 
-export const CommentRegisterBtn = styled.button`
-  width: 91px;
-  height: 100%;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-`;
+export const DateArea = styled.div`
+  padding-top: 20px;
+  font-size: 12px;
+  color: #BDBDBD;
+`
+
+export const EditIcon = styled(EditOutlined)`
+
+  font-size: 18px;
+  padding-right: 16px;
+`
+export const DeleteIcon = styled(DeleteOutlined)`
+  font-size: 18px;
+`
+
+export const EditIconArea = styled.div`
+display: flex;
+`
+export const CommentListArea = styled.div``
+
+export const ContentsBox = styled.div`
+  display: flex;
+`
+
+export const InfiniteWrapper = styled.div`
+
+`
