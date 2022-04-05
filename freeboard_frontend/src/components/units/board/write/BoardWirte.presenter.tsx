@@ -32,7 +32,7 @@ import {
 } from "./BoardWrite.style";
 
 export default function BoardWriteUi(props: IBoardWriteUiProps) {
-  console.log("데이터", props.data?.fetchBoard.boardAddress);
+  // console.log("데이터", props.data?.fetchBoard.boardAddress);
 
   return (
     <MyPage>
@@ -86,10 +86,12 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
         <MyAddrWrapper>
           <MySmallTitle>주소</MySmallTitle>
           <MyAddrCode>
-             <MyAddrCodeInput type="text" 
+             {/* <MyAddrCodeInput type="text" 
              value={
                props.zipcode || 
-               props.data?.fetchBoard.boardAddress?.zipcode || ""} readOnly/>
+               props.data?.fetchBoard.boardAddress?.zipcode || ""} readOnly/> */}
+             <MyAddrCodeInput type="text" 
+             value={props.zipcode} readOnly/>
             <MyAddrBtn onClick={props.setToggle}>우편번호 검색</MyAddrBtn>
           </MyAddrCode>
             <MyMiddleInput type="text" 
