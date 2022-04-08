@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  padding-top: 80px;
+  padding-top: 45px;
 `;
 
 export const Table = styled.table`
@@ -102,4 +102,37 @@ export const BestBoardWrapper = styled.div`
   align-items: center;
   width: 1200px;
   height: 339px;
+`
+
+export const SearchBox = styled.div`
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+` 
+
+export const SearchInput = styled.input`
+  width: 175px;
+  height: 50px;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  padding: 10px 2px 0 0;
+  font-size: 20px;
+  ::placeholder {
+    color: black;
+    font-size: 20px;
+    text-align: start;
+  }
+`
+
+interface IProps {
+  isMatched: boolean;
+}
+
+// search
+export const TitleSpan = styled.span`
+color: ${(props:IProps) => props.isMatched ? "blue" : "black"}
 `

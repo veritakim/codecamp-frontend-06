@@ -23,7 +23,6 @@ export const DetailHead = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #BDBDBD;
   padding-bottom: 20px;
-}
 `;
 export const UserInfo = styled.div`
   display: flex;
@@ -74,7 +73,8 @@ export const DetailPictureBox = styled.div`
   padding: 40px 0px 40px 0px;
 `;
 
-export const DetailImg = styled.img``;
+export const DetailImg = styled.img`
+`;
 
 export const DetailContent = styled.div`
   width: 100%;
@@ -196,3 +196,4 @@ export const TooltipStyle = styled(Tooltip)`
   background-color: black;
 
 `
+

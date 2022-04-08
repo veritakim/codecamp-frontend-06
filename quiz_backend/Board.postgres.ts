@@ -1,17 +1,22 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm'
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm'
 
 @Entity()
-export class Board {
+export class Products extends BaseEntity{
+  @PrimaryGeneratedColumn("uuid")
+  _id!: string;
+
   @PrimaryGeneratedColumn("increment")
-  number!: number;
+  number!:  number;
 
-  @Column({ type: "text" })
-  writer!: string;
+  @Column({type: "text"})
+  seller!: string;
 
-  @Column({ type: "text" })
-  title!: string;
+  @Column({type: "text"})
+  name!: string;
 
-  @Column({ type: "text" })
-  contents!: string;
+  @Column({type: "text"})
+  detail!: string;
+
+  @Column({type: "text"})
+  price!: string;
 }
-

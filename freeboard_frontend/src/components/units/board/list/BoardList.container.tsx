@@ -2,7 +2,8 @@ import BoardListUi from "./BoardList.presenter";
 import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from "./BoardList.queries";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
+import _ from 'lodash'
 
 export default function BoardList() {
   const router = useRouter();
@@ -45,7 +46,18 @@ export default function BoardList() {
     }
   }
 
-
+  /* 검색 */
+  const [word, setWord] = useState("")
+  
+  const getDebounce = _.debounce((e) => {
+    refetch({search: e, page: 1})
+    setWord(e)
+  }, 200)
+  
+  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    getDebounce(event.target.value)
+    // console.log("검색", event.target.value)
+  }
 
   return (
     <BoardListUi
@@ -58,6 +70,8 @@ export default function BoardList() {
       startPage={startPage}
       lastPage={lastPage}
       currentPage={currentPage}
+      onChangeSearch={onChangeSearch}
+      word={word}
     ></BoardListUi>
   );
 }

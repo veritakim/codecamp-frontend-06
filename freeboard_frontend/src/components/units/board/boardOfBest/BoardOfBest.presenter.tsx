@@ -5,14 +5,17 @@ import {LikeOutlined, UserOutlined} from '@ant-design/icons'
 import { Avatar } from 'antd';
 
 export default function BoardOfBestUi(props: BoardOfBestUiProps) {
-  console.log("best", props.data);
+  // console.log("best", props.data);
+  const basicImg = ['/b-flower2.jpeg', '/b-object.jpeg', '/landing.jpeg', 'b_flower1.jpeg']
   return (
     <Fragment>
       {props.data?.fetchBoardsOfTheBest.map((el, index) => (
         <S.ContainerBox key={index} id={el._id} onClick={props.onClickMovePage}>
           {el.images.length !== 0
           ?<S.ImageArea src={el.images} />
-          : <S.ImageArea src="/landing.jpeg" />
+          : 
+          
+          <S.ImageArea src={basicImg[index]}/>
           }
          
           <S.Body>

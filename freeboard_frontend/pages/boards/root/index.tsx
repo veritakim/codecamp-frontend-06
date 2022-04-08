@@ -34,8 +34,9 @@ export default function RootPage () {
   `
 
   const FlowerImg = styled.img`
-    width: 10%;
-    position: fixed;
+    /* width: 10%; */
+    height: 50%;
+    position: absolute;
     left: 403px;
     bottom: 0px;
     z-index: 10;

@@ -18,6 +18,7 @@ import {
   UserIconStyle,
   DetailContents,
   DetailTitle,
+  DetailImg,
   DetailPictureBox,
   DetailContent,
   DetailVideo,
@@ -37,7 +38,7 @@ import ReactPlayer from 'react-player';
 import { Tooltip } from "antd";
 
 export default function DetailBoardUi(props: DetailBoardUiProps) {
-  console.log("주소", props.data)
+  console.log("주소", props.data?.fetchBoard.images)
   return (
     <WrapperBox>
       <Container>
@@ -62,10 +63,18 @@ export default function DetailBoardUi(props: DetailBoardUiProps) {
             </UserIconStyle>
           </UserIcon>
         </DetailHead>
+        
         <DetailContents>
           <DetailTitle>{props.data?.fetchBoard.title}</DetailTitle>
           <DetailPictureBox>
-            {/* <DetailImg {props.data?.fetchBoard.images ?"" : ""}></DetailImg> */}
+            {props.data?.fetchBoard.images
+            ?.filter((el: string) => el)
+            .map((el: string) => (
+              <DetailImg
+                key={el}
+                src={`https://storage.googleapis.com/${el}`}
+              />
+            ))}
           </DetailPictureBox>
           <DetailContent>{props.data?.fetchBoard.contents}</DetailContent>
           <DetailVideo>

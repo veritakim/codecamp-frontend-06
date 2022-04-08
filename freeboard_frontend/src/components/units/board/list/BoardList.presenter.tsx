@@ -1,6 +1,7 @@
 import BoardOfBest from '../boardOfBest/BoardOfBest.container';
 import * as S from './BoardList.styles'
 import { BoardListUiProps } from "./BoardList.types";
+import {v4 as uuid} from 'uuid'
 
 
 
@@ -11,6 +12,9 @@ export default function BoardListUi(props: BoardListUiProps) {
       <S.BestBoardWrapper>
         <BoardOfBest />
       </S.BestBoardWrapper>
+      <S.SearchBox>
+        <S.SearchInput type="text" placeholder='Search' onChange={props.onChangeSearch}/>
+      </S.SearchBox>
       <S.Wrapper>
         <S.Table>
           <tr>
@@ -20,10 +24,11 @@ export default function BoardListUi(props: BoardListUiProps) {
             <S.Th>날짜</S.Th>
           </tr>
           {props.data?.fetchBoards.map((el: any, index: number) => (
-            <tr key={el._id}>
+            <tr key={uuid()}>
               <S.IndexTd>{10 - index}</S.IndexTd>
               <S.TitleTd id={el._id} onClick={props.onClickDetailMove}>
-                {el.title}
+                {el.title.replaceAll(props.word, `#$%${props.word}#$%`)
+                        .split("#$%").map((el) => (<S.TitleSpan key={uuid()} isMatched={el === props.word}>{el}</S.TitleSpan>))}
               </S.TitleTd>
               <S.WriterTd>{!el.writer ? "익명" : el.writer}</S.WriterTd>
               <S.Td>{el.createdAt.slice(0, 10)}</S.Td>

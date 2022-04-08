@@ -2,9 +2,11 @@ import { LikeOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
 
 export const ContainerBox = styled.div`
-  width: 282px;
-  height: 257px;
-  border-radius: 25px;
+  width: 275px;
+  height: 350px;
+  border-top-left-radius:  140px;
+  border-top-right-radius:  140px;
+  overflow: hidden;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
     &:hover {
@@ -14,9 +16,9 @@ export const ContainerBox = styled.div`
 
 export const ImageArea = styled.img`
   width: 100%;
-  height: 120px;
-  border-top-left-radius:  25px;
-  border-top-right-radius:  25px;
+  height: 200px;
+  /* border-top-left-radius:  25px; */
+  /* border-top-right-radius:  25px; */
 `
 
 export const Body = styled.div`

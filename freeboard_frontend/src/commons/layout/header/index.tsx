@@ -2,11 +2,11 @@ import styled from "@emotion/styled"
 import { useRouter } from "next/router"
 
 const Wrapper = styled.div`
-  height: 50px;
-  background-color: #3c525b;
+  height: 100px;
+  background-color: #d5c5a9;
   display: flex;
   justify-content: flex-end;
-  color: #d7d7d7;
+  color: white;
   padding-right: 15px;
   align-items: center;
   font-size: 16px;
