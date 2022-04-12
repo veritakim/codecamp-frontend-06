@@ -6,23 +6,26 @@ import { globalStyles } from "../src/components/commons/styles/globalStyles";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { createUploadLink } from "apollo-upload-client";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import ApolloSetting from "../src/components/commons/apollo";
 
 function MyApp({ Component, pageProps }) {
-  const uploadLink = createUploadLink({
-    uri: "http://backend06.codebootcamp.co.kr/graphql",
-  })
-  const client = new ApolloClient({
-    link: ApolloLink.from([uploadLink]),
-    cache: new InMemoryCache()
-  })
-
+  
   return (
-    <ApolloProvider client={client}>
-      <Global styles={globalStyles} />
-      <Layout>
-       <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+    <RecoilRoot>
+      <ApolloSetting>
+        <Global styles={globalStyles} />
+        <Layout>
+        <Component {...pageProps} />
+        </Layout>
+      </ApolloSetting>
+    </RecoilRoot>
 
   )
 }

@@ -6,6 +6,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { initializeApp } from "firebase/app";
 import {createUploadLink} from 'apollo-upload-client'
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import ApolloSetting from '../src/components/commons/apollo';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAugN7M0_60pSnraVMLMFEsoWki3k8Bg_s",
@@ -19,22 +28,19 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 function MyApp({ Component, pageProps }) {
-  const uploadLink = createUploadLink({
-    uri: "http://backend06.codebootcamp.co.kr/graphql",
-  })
 
-  const client = new ApolloClient({
-    link: ApolloLink.from([uploadLink]),
-    cache: new InMemoryCache(),
-  });
+
+
 
   return (
-    <ApolloProvider client={client}>
-      <Layout>
-       <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
-
+    
+    <RecoilRoot>
+      <ApolloSetting>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloSetting>
+    </RecoilRoot>
   )
 }
 
