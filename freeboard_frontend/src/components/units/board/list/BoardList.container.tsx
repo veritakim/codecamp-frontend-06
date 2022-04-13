@@ -16,7 +16,7 @@ export default function BoardList() {
 
   const onClickDetailMove = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target instanceof Element) {
-      router.push(`/boards/detailBoard/${event.target.id}`);
+      router.push(`/boards/detailBoard/${event.currentTarget.id}`);
     }
   };
 

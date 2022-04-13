@@ -7,16 +7,17 @@ import { Avatar } from 'antd';
 export default function BoardOfBestUi(props: BoardOfBestUiProps) {
   // console.log("best", props.data);
   const basicImg = ['/b-flower2.jpeg', '/b-object.jpeg', '/landing.jpeg', 'b_flower1.jpeg']
+  console.log("best", props.data?.fetchBoardsOfTheBest)
   return (
     <Fragment>
       {props.data?.fetchBoardsOfTheBest.map((el, index) => (
-        <S.ContainerBox key={index} id={el._id} onClick={props.onClickMovePage}>
-          {el.images.length !== 0
-          ?<S.ImageArea src={el.images} />
-          : 
-          
+        <S.ContainerBox key={el._id} id={el._id} onClick={props.onClickMovePage}>
+          {el.images[0] !== ""
+          ?
+          <S.ImageArea src={`https://storage.googleapis.com/${el.images[0]}`} /> 
+           : 
           <S.ImageArea src={basicImg[index]}/>
-          }
+          } 
          
           <S.Body>
             <S.Title>{el.title}</S.Title>
