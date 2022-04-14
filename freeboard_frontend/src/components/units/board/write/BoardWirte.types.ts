@@ -11,6 +11,7 @@ export interface IBoardWriteUiProps {
   onChangeContent: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onChangeAddrDetail: (event: ChangeEvent<HTMLInputElement>) => void;
   onChageYoutue: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeFileUrls: (fileUrls: string, index: number) => void;
   onComplete: any;
   data?: any;
   isEdit: boolean;
@@ -28,6 +29,7 @@ export interface IBoardWriteUiProps {
   setToggle: ()=>void;
   zipcode: string;
   addr: string;
+  fileUrls: string[];
 }
 
 export interface IBoardEditVariables {

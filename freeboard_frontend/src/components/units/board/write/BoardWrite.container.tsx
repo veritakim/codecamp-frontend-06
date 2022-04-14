@@ -29,6 +29,8 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
 
   const [isActive, setIsActive] = useState(false);
 
+  const [fileUrls, setFileUrls] = useState(["", "", ""]);
+
   const router = useRouter();
   const [createBoard] = useMutation(CREATE_BOARD);
   const [updateBoard] = useMutation(UPDATE_BOARD);
@@ -104,6 +106,13 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       youtubeUrl: event.target.value
     })
   }
+
+
+  const onChangeFileUrls = (fileUrl: string, index: number) => {
+    const newFileUrls = [...fileUrls];
+    newFileUrls[index] = fileUrl;
+    setFileUrls(newFileUrls);
+  };
 
   const signCheck = async () => {
     if (!inputs.writer) {setNameError("이름을 입력해주세요"); }
@@ -211,6 +220,7 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       onChangeContent={onChangeContent}
       onChangeAddrDetail={onChangeAddrDetail}
       onChageYoutue={onChageYoutue}
+      onChangeFileUrls={onChangeFileUrls}
       signCheck={signCheck}
       boardEdit={boardEdit}
       handleComplete={handleComplete}
@@ -228,6 +238,7 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       onComplete
       zipcode={addrInputs.zipcode}
       addr={addrInputs.address}
+      fileUrls={fileUrls}
 
     />
   );

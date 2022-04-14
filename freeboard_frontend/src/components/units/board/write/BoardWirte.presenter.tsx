@@ -1,5 +1,6 @@
 import { IBoardWriteUiProps } from "./BoardWirte.types";
 import { Modal } from "antd";
+import {v4 as uuid} from 'uuid'
 import DaumPostcode from 'react-daum-postcode';
 import {
   MyPage,
@@ -19,17 +20,19 @@ import {
   MyAddrBtn,
   MyAddrWrappert,
   MyPhotoBody,
-  MyPhotoWrapper,
-  MyPhotoBtn,
-  MyPhotoSpanPlus,
-  MyPhotoSpanUp,
+  // MyPhotoWrapper,
+  // MyPhotoBtn,
+  // MyPhotoSpanPlus,
+  // MyPhotoSpanUp,
   MyMain,
   MyMainDiv,
   MyMainRadio,
   MyRegisterBtnDiv,
   MyRegisterBtn,
-  ErrorDiv
+  ErrorDiv,
+  MyPhotoWrapper
 } from "./BoardWrite.style";
+import UploadContainer from "../../../commons/imgUpload/Upload.container";
 
 export default function BoardWriteUi(props: IBoardWriteUiProps) {
   // console.log("데이터", props.data?.fetchBoard.boardAddress);
@@ -120,20 +123,15 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
         </MyMiddleWrapper>
 
         <MyPhotoBody>
-          <MySmallTitle>사진첨부</MySmallTitle>
           <MyPhotoWrapper>
-            <MyPhotoBtn>
-              <MyPhotoSpanPlus>+</MyPhotoSpanPlus>
-              <MyPhotoSpanUp>upload</MyPhotoSpanUp>
-            </MyPhotoBtn>
-            <MyPhotoBtn>
-              <MyPhotoSpanPlus>+</MyPhotoSpanPlus>
-              <MyPhotoSpanUp>upload</MyPhotoSpanUp>
-            </MyPhotoBtn>
-            <MyPhotoBtn>
-              <MyPhotoSpanPlus>+</MyPhotoSpanPlus>
-              <MyPhotoSpanUp>upload</MyPhotoSpanUp>
-            </MyPhotoBtn>
+            {props.fileUrls.map((el, index) => (
+                <UploadContainer
+                  key={uuid()}
+                  index={index}
+                  fileUrl={el}
+                  onChangeFileUrls={props.onChangeFileUrls}
+                />
+              ))}
           </MyPhotoWrapper>
         </MyPhotoBody>
 

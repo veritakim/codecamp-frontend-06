@@ -38,10 +38,14 @@ export default function LayoutHeader () {
     router.push('/boards')
   }
 
+  const moveLogin = () => {
+    router.push('/user/login')
+  }
+
   return( 
     <Wrapper>
       <Boards><Font onClick={moveBoardList}>자유게시판</Font></Boards>
-      <Login><Font>로그인</Font></Login>
+      <Login><Font onClick={moveLogin}>로그인</Font></Login>
       <MyPage><Font>마이페이지</Font></MyPage>
     </Wrapper> );
 }

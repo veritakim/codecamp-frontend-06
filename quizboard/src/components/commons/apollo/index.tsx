@@ -6,6 +6,7 @@ import { accessTokenState } from "../../../commons/store"
 
 export default function ApolloSetting (props) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState)
+  
   useEffect(() => {
     const localStorageItem = localStorage.getItem("accessToken")
     setAccessToken(localStorageItem || "")

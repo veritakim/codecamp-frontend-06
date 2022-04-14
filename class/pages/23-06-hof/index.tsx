@@ -1,5 +1,7 @@
+import { MouseEvent } from "react";
+
 export default function HofPage() {
-  const onClickChild = (el) => (event) => {
+  const onClickChild = (el:string) => (event:MouseEvent<HTMLDivElement>) => {
     console.log(el);
   };
 
