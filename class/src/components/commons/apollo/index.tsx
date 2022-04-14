@@ -2,10 +2,11 @@ import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from "@apollo
 import { createUploadLink } from "apollo-upload-client";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { accessTokenState } from "../../../commons/stroe";
+import { accessTokenState, userInfomationState } from "../../../commons/stroe";
 
 export default function ApolloSetting (props) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState)
+  const [, setUserInfo] = useRecoilState(userInfomationState)
 
   
   // 두번째 방법
@@ -17,8 +18,10 @@ export default function ApolloSetting (props) {
 
   // 세번째 방법
   useEffect(() => {
-    const myLocalStorage = localStorage.getItem("accessToken")
-    setAccessToken(myLocalStorage || "")
+    const accessToken = localStorage.getItem("accessToken")
+    const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}")
+    setAccessToken(accessToken || "")
+    setUserInfo(userInfo)
   }, [])
 
   // createUploadLink로 업로드 설정. 설정한 것을 특정 변수에 담는다. clien link에 넘겨줄것이다
