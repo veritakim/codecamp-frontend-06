@@ -1,5 +1,5 @@
 import { useQuery, gql, useMutation } from "@apollo/client";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { FETCH_BOARD, DELETE_BOARD, LIKE_BOARD, DISLIKE_BOARD} from "./DetailBoard.queries";
 import DetailBoardUi from "./DetailBoard.presenter";
@@ -29,6 +29,7 @@ export default function DetailBoard() {
     deleteBoard({
       variables: {
         boardId: router.query.boardId,
+        // boardId: (event.target as HTMLButtonElment).id
       },
     });
     alert("게시물이 삭제되었습니다.");

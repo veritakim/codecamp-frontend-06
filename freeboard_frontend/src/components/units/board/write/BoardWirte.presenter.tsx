@@ -94,7 +94,8 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
                props.zipcode || 
                props.data?.fetchBoard.boardAddress?.zipcode || ""} readOnly/> */}
              <MyAddrCodeInput type="text" 
-             value={props.zipcode} readOnly/>
+             value={props.zipcode || 
+              props.data?.fetchBoard.boardAddress?.zipcode} readOnly/>
             <MyAddrBtn onClick={props.setToggle}>우편번호 검색</MyAddrBtn>
           </MyAddrCode>
             <MyMiddleInput type="text" 
@@ -108,7 +109,7 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
           <MyMiddleInput type="text" 
             placeholder="상세주소 입력" 
             onChange={props.onChangeAddrDetail}  
-            defaultValue={props.data?.fetchBoard.boardAddress.addressDetail}/>
+            defaultValue={props.data?.fetchBoard.boardAddress?.addressDetail || ""}/>
           <ErrorDiv>{props.addrDetailError}</ErrorDiv>
         </MyAddrWrappert>
 
