@@ -3,52 +3,41 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const Wrapper = styled.div`
-  width: 1200px;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  
+  height: 240px;
+  width: 764px;
 `
-
 const SlickDiv = styled(Slider)`
-  height: 300px;
-  width: 2800px;
+  height: 192px;
+  width: 764px;
 `
 
 const ImgDiv = styled.div`
-  width: 100%;
-  height: 300px;
+  width: 764px;
+  height: 240px;
   overflow: hidden;
 `
 
 const Img = styled.img`
-  width: 100%;
+  width: 764px;
+  height: 240px;
   position: relative;
 `
 
-export default function Layoutbanner () {
-  
-
+export default function LayoutNavigator () {
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
+    arrows: false,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 2000,
-    cssEase: "linear",
     centerMode: true,
     centerPadding: '0px'
   }
+  const imgSrc = ["/bg.png", "/bg.png", "/bg.png"]
 
-  const imgSrc = ["/img1.jpeg", "/img2.jpeg", "/landing.jpeg"]
-
-  return (
-  <Wrapper>
-    <div>
+  return (<Wrapper>
+      <div>
         <SlickDiv {...settings}>
           {imgSrc.map((el, i) => (
             <ImgDiv key={i}>
@@ -57,5 +46,5 @@ export default function Layoutbanner () {
           ))}
         </SlickDiv>
       </div>
-  </Wrapper>);
+  </Wrapper>)
 }
