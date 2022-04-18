@@ -105,6 +105,9 @@ export default function apolloCachePage () {
   const onClickDelete = (boardId: string) => async () => {
     await deleteBoard({
       variables: {boardId},
+      // refetchQueries: [{
+      //   query: FETCH_BOARDS
+      // }]
       update(cache, {data}) {
         const deletedId = data.deleteBoard
         cache.modify({
