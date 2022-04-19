@@ -1,85 +1,56 @@
-import styled from "@emotion/styled"
+import Button01 from "../../../commons/buttons/01"
+import * as S from './CreateProduct.style'
 
-const Wrapper = styled.div`
-  width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 80px 102px;
-  box-shadow: 0 0 20px 0;
-`
-
-const HeadTitiel = styled.div`
-  font-size: 36px;
-  font-weight: 700;
-`
-const InputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 40px;
-`
-
-const HeadDiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`
-
-const LittleTitle = styled.div`
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 16px;
-`
-
-const Input = styled.input`
-  width: 996px;
-  height: 52px;
-  border: none;
-  border: 1px solid #BDBDBD;
-`
 
 export default function CreateProductUi () {
 
 
   return (
-    <Wrapper>
-      <HeadDiv>
-       <HeadTitiel>상품 등록하기</HeadTitiel>
-      </HeadDiv>
+    <S.Wrapper>
+      <form>
+        <S.HeadDiv>
+        <S.HeadTitiel>상품 등록하기</S.HeadTitiel>
+        </S.HeadDiv>
 
-      <InputDiv>
-        <LittleTitle>상품명</LittleTitle>
-        <Input />
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>상품명</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>한줄요약</LittleTitle>
-        <Input/>
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>한줄요약</S.LittleTitle>
+          <S.Input/>
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>상품설명</LittleTitle>
-        <Input />
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>상품설명</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>판매 가격</LittleTitle>
-        <Input />
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>판매 가격</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>태그입력</LittleTitle>
-        <Input />
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>태그입력</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>거래위치</LittleTitle>
-        <Input />
-      </InputDiv>
+        <S.InputDiv>
+          <S.LittleTitle>거래위치</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
 
-      <InputDiv>
-        <LittleTitle>사진 첨부</LittleTitle>
-        <Input />
-      </InputDiv>
-    </Wrapper>
+        <S.InputDiv>
+          <S.LittleTitle>사진 첨부</S.LittleTitle>
+          <S.Input />
+        </S.InputDiv>
+        
+        <S.ButtonArea>
+        <Button01 isActive={true} title={"등록하기"}></Button01>
+        </S.ButtonArea>
+      </form>
+    </S.Wrapper>
   )
 }
