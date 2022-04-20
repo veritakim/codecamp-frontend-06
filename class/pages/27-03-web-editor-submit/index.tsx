@@ -20,7 +20,6 @@ const ReactQuill = dynamic(() => import("react-quill"), {ssr: false})
 const ReactQuillDiv = styled(ReactQuill)`
   width: 800px;
   height: 500px;
-
 `
 
 export default function WebEditorHookFormPage () {
