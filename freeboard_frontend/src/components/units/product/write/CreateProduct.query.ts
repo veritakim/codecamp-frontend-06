@@ -8,7 +8,6 @@ mutation createUseditem($createUseditemInput: CreateUseditemInput!) {
     contents
     price
     tags
-    seller
     createdAt
   }
 }

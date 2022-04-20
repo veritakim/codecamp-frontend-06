@@ -36,6 +36,7 @@ export default function LoginContainer() {
       alert("로그인 성공")
       const accessToken = result.data.loginUser.accessToken
       setAccessToken(accessToken);
+      localStorage.setItem("accessToken", accessToken)
       router.push('/boards')
 
     } catch(error) {
