@@ -2,14 +2,17 @@ import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from "@apollo
 import { createUploadLink } from "apollo-upload-client"
 import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { accessTokenState } from "../../../commons/store"
+import { accessTokenState, userInfomationState } from "../../../commons/store"
 
 export default function ApolloSetting (props) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState)
+  const [, setUserInfo] = useRecoilState(userInfomationState)
   
   useEffect(() => {
-    const localStorageItem = localStorage.getItem("accessToken")
-    setAccessToken(localStorageItem || "")
+    const accessToken = localStorage.getItem("accessToken")
+    const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}")
+    setAccessToken(accessToken || "")
+    setUserInfo(userInfo)
   }, [])
 
   const uploadLink = createUploadLink({
