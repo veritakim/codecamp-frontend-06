@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil"
-import { userInfomationState} from "../../src/commons/stroe"
+import { userInfomationState} from "../../src/commons/store"
 import { WithAuth } from "../../src/components/commons/hocs/withAuth"
 
 // const FETCH_USER_LOGGED_IN = gql`

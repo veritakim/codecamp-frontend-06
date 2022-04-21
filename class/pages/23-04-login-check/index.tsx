@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 import { ChangeEvent, useState } from "react"
 import { useRecoilState} from "recoil"
-import { accessTokenState } from "../../src/commons/stroe"
+import { accessTokenState } from "../../src/commons/store"
 
 
 const LOGIN_USER = gql`

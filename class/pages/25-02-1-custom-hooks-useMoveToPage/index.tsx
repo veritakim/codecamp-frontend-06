@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { useRecoilState } from "recoil"
-import { visitedPageState } from "../../src/commons/stroe"
+import { visitedPageState } from "../../src/commons/store"
 
 // 클릭해서 이동 할 때마다 onClick ~~~ 함수로 만들어 줬어야 했다. 그것을 하나로 통일 시키기
 export default function CustomHooksUseMoveToPage () {

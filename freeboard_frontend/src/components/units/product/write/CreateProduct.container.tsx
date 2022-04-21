@@ -5,11 +5,11 @@ import * as yup from 'yup'
 import { useMutation } from "@apollo/client";
 import { CREATE_USEDITEM } from "./CreateProduct.query";
 import { IMutation, IMutationCreateUseditemArgs } from "../../../../commons/types/generated/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const schema = yup.object({
-  name: yup.string()
+  name: yup.string()  
             .required("상품명을 입력하세요"),
   remarks: yup.string()
               .required("한줄 요약을 입력하세요"),
@@ -18,7 +18,7 @@ const schema = yup.object({
   
 })
 
-export default function CreateProductContainer () {
+export default function CreateProductContainer (props) {
   const {register, handleSubmit, formState} = useForm({
     resolver: yupResolver(schema),
     mode: "onChange"
@@ -28,9 +28,11 @@ export default function CreateProductContainer () {
   const [fileUrls, setFileUrls] = useState(["", "", ""])
   const router = useRouter()
 
+
+
   const onClickSubmit = async(data:any) => {
     // 태그를 분리 시켜준다, 배열로 만들어 주기 위해
-    const {tags, price, ...rest} = data 
+    const {tags, price, images, ...rest} = data 
     // console.log("tags", tags.split("#"))
 
     const tagsArr = tags.split("#")
@@ -63,6 +65,14 @@ export default function CreateProductContainer () {
     setFileUrls(newFileUrls);
   };
 
+  useEffect(() => {
+    if (props.data?.fetchUseditem.images?.length) {
+      setFileUrls([...props.data?.fetchUseditem.images]);
+    }
+  }, [props.data]);
+
+  const onClickUpdate = (data) => {}
+
 
   return <CreateProductUi
             handleSubmit={handleSubmit}
@@ -70,5 +80,8 @@ export default function CreateProductContainer () {
             formState={formState}
             register={register}
             onChangeFileUrls={onChangeFileUrls}
+            isEdit={props.isEdit}
+            data={props.data}
+            onClickUpdate={onClickUpdate}
             />
 }

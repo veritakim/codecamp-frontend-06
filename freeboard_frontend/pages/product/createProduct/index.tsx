@@ -3,5 +3,5 @@ import CreateProductContainer from "../../../src/components/units/product/write/
 export default function createProductPage () {
 
 
-  return <CreateProductContainer />
+  return <CreateProductContainer isEdit={false}/>
 }

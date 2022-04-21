@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, ApolloProvider, InMemoryCache } from "@apollo
 import { createUploadLink } from "apollo-upload-client";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { accessTokenState, userInfomationState } from "../../../commons/stroe";
+import { accessTokenState, userInfomationState } from "../../../commons/store";
 
 export default function ApolloSetting (props) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState)
