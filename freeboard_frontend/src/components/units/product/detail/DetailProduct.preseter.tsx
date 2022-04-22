@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import Dompurify from 'dompurify'
 
 const Wrapper = styled.div`
   width: 800px;
@@ -13,10 +14,14 @@ export default function DetailProductUi (props: any) {
   return (
     <Wrapper>
       
-      <div key={props.data?.fetchUseditem._id}>
+      <div>
         <div>{props.data?.fetchUseditem.name}</div>
         <div>{props.data?.fetchUseditem.remarks}</div>
-        <div>{props.data?.fetchUseditem.contents}</div>
+        {typeof window !== "undefined" && (
+        <div dangerouslySetInnerHTML={
+          {__html: Dompurify.sanitize(props.data?.fetchUseditem.contents)}
+        }></div>
+      )}
         <div>{props.data?.fetchUseditem.price}</div>
         {props.userInfo.email === props.data?.fetchUseditem.seller.email 
         ? (<button onClick={props.onClickUpdate}>수정하기</button>) 

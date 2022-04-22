@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useMutation } from "@apollo/client";
-import { CREATE_USEDITEM } from "./CreateProduct.query";
+import { CREATE_USEDITEM, UPLOAD_FILE } from "./CreateProduct.query";
 import { IMutation, IMutationCreateUseditemArgs } from "../../../../commons/types/generated/types";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { checkFileValidation } from "../../../../commons/library/validation";
 
 const schema = yup.object({
   name: yup.string()  
@@ -18,8 +19,9 @@ const schema = yup.object({
   
 })
 
+
 export default function CreateProductContainer (props) {
-  const {register, handleSubmit, formState} = useForm({
+  const {register, handleSubmit, formState, setValue, trigger} = useForm({
     resolver: yupResolver(schema),
     mode: "onChange"
   })
@@ -27,14 +29,38 @@ export default function CreateProductContainer (props) {
   const [createUseditem] = useMutation<Pick<IMutation, 'createUseditem'>, IMutationCreateUseditemArgs>(CREATE_USEDITEM)
   const [fileUrls, setFileUrls] = useState(["", "", ""])
   const router = useRouter()
+ 
+  // const [uploadFile] = useMutation<Pick<IMutation, "uploadFile">, IMutationUploadFileArgs>(UPLOAD_FILE)
+  const [uploadFile] = useMutation(UPLOAD_FILE)
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [imgData, setImgDate] = useState([""]);
 
+  const onClickImage = () => {
+    fileRef.current?.click();
+  }
+  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    console.log(file)
+
+    const isValid = checkFileValidation(file);
+    if(!isValid) return;
+
+    try{
+      const result = await uploadFile({variables: {file}})
+    
+      setImgDate(prev => [...prev, result.data?.uploadFile.url])
+
+    } catch (error: any) {
+      alert(error.message)
+    }
+    console.log(imgData)
+  }
 
 
   const onClickSubmit = async(data:any) => {
     // 태그를 분리 시켜준다, 배열로 만들어 주기 위해
     const {tags, price, images, ...rest} = data 
     // console.log("tags", tags.split("#"))
-
     const tagsArr = tags.split("#")
     
 
@@ -58,12 +84,18 @@ export default function CreateProductContainer (props) {
 
   }
 
+  const onChangeContents = (value: string) => {
+    console.log(value)
+    setValue("contents", value === "<p><br></p>" ? "" : value)
+    trigger("contents")
+  }
 
-  const onChangeFileUrls = (fileUrl: string, index: number) => {
-    const newFileUrls = [...fileUrls];
-    newFileUrls[index] = fileUrl;
-    setFileUrls(newFileUrls);
-  };
+
+  // const onChangeFileUrls = (fileUrl: string, index: number) => {
+  //   const newFileUrls = [...fileUrls];
+  //   newFileUrls[index] = fileUrl;
+  //   setFileUrls(newFileUrls);
+  // };
 
   useEffect(() => {
     if (props.data?.fetchUseditem.images?.length) {
@@ -73,15 +105,19 @@ export default function CreateProductContainer (props) {
 
   const onClickUpdate = (data) => {}
 
-
   return <CreateProductUi
             handleSubmit={handleSubmit}
             onClickSubmit={onClickSubmit}
             formState={formState}
             register={register}
-            onChangeFileUrls={onChangeFileUrls}
+            // onChangeFileUrls={onChangeFileUrls}
             isEdit={props.isEdit}
             data={props.data}
             onClickUpdate={onClickUpdate}
+            onChangeContents={onChangeContents}
+            onClickImage={onClickImage}
+            onChangeFile={onChangeFile}
+            imgData={imgData}
+            fileRef={fileRef}
             />
 }

@@ -1,16 +1,20 @@
 import Button01 from "../../../commons/buttons/01"
+import 'react-quill/dist/quill.snow.css';
 import * as S from './CreateProduct.style'
 import '@toast-ui/editor/dist/toastui-editor.css';
-// import { Editor } from '@toast-ui/react-editor';
 import dynamic from "next/dynamic";
 
+// import { EditorProps } from '@toast-ui/react-editor';
+import styled from "@emotion/styled";
 
-// const Editor = dynamic(() => import("@toast-ui/react-editor"), {ssr: false}) 
-import { EditorProps } from '@toast-ui/react-editor';
 
-const Editor = dynamic<EditorProps>(() => import('@toast-ui/react-editor')
-  .then(m => m.Editor), { ssr: false });
-
+// const Editor = dynamic<EditorProps>(() => import('@toast-ui/react-editor')
+//   .then(m => m.Editor), { ssr: false });  
+// const Viewer = dynamic(() => import('@toast-ui/react-editor'), {ssr: false})
+const ReactQuill = dynamic(() => import("react-quill"), {ssr: false}) 
+const ReactQuillDiv = styled(ReactQuill)`
+  height: 500px;
+`
 
 export default function CreateProductUi (props: any) {
 
@@ -38,11 +42,21 @@ export default function CreateProductUi (props: any) {
           {typeof window === "undefined" 
           ? (<div></div>)
           :
-          ( <Editor />)  
+          //  (   <Editor 
+          //       initialEditType="markdown"
+          //       height="500px"
+          //       onChange={props.onChangeContents}
+                
+          //       />
+          //   )  
+          (<ReactQuillDiv 
+            onChange={props.onChangeContents}
+            value={props.data ? props.data?.fetchUseditem.contents : ""}
+            />)
+          
         }
-         
-
         </S.InputDiv>
+
 
         <S.InputDiv>
           <S.LittleTitle>판매 가격</S.LittleTitle>
@@ -59,13 +73,36 @@ export default function CreateProductUi (props: any) {
           <S.Input />
         </S.InputDiv>
 
-        <S.InputDiv>
+        <S.ImgUploadDiv>
           <S.LittleTitle>사진 첨부</S.LittleTitle>
-          <S.Input />
-        </S.InputDiv>
+            {props.imgData.map((e, i) => (
+               e !== "" &&
+                <S.PhotoImg key={i} src={`https://storage.googleapis.com/${e}`} alt="img"/> 
+            ))}
+          
+             {/* <S.PhotoImg
+             onClick={props.onClickUpload}
+             src={`https://storage.googleapis.com/${props.fileUrl}`}
+           /> */}
+            {props.imgData.length > 3 
+              ? (<div></div>) 
+              : (
+                <div>
+                  <S.ImgBox onClick={props.onClickImage}>
+                      <S.Plus />
+                      </S.ImgBox>
+                  <S.UploadFileHidden
+                  type="file"
+                  ref={props.fileRef}
+                  onChange={props.onChangeFile}
+                />
+                </div>
+              )
+            }
+        </S.ImgUploadDiv>
         
         <S.ButtonArea>
-        <Button01 isActive={true} title={"등록하기"}></Button01>
+        <Button01 isActive={true} title={props.isEdit ? "수정하기" :"등록하기"}></Button01>
         </S.ButtonArea>
       </form>
     </S.Wrapper>

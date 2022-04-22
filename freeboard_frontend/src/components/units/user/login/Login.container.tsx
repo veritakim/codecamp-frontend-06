@@ -10,6 +10,7 @@ export default function LoginContainer() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loginUser] = useMutation(LOGIN_USER)
+
   const [, setAccessToken] = useRecoilState(accessTokenState)
   const [, setUserInfo] = useRecoilState(userInfomationState)
   const router = useRouter()
@@ -51,8 +52,8 @@ export default function LoginContainer() {
       const userInfo = resultUserInfo.data.fetchUserLoggedIn
 
       setUserInfo(userInfo)
-
       setAccessToken(accessToken);
+
       localStorage.setItem("accessToken", accessToken)
       localStorage.setItem("userInfo", JSON.stringify(userInfo))
 

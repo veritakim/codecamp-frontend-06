@@ -1,3 +1,4 @@
+import { PlusCircleOutlined } from "@ant-design/icons"
 import styled from "@emotion/styled"
 
 export const Wrapper = styled.div`
@@ -16,6 +17,10 @@ export const InputDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
+`
+
+export const ImgUploadDiv = styled(InputDiv)`
+  flex-direction: row;
 `
 
 export const HeadDiv = styled.div`
@@ -39,3 +44,35 @@ export const Input = styled.input`
 
 export const ButtonArea = styled(HeadDiv)`
 `
+
+export const PhotoImg = styled.img`
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  margin-right: 10px;
+  overflow: hidden;
+`
+
+export const UploadFileHidden = styled.input`
+  display: none;
+`;
+
+export const ImgBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background-color: #FAFAFA;
+  border: 1px dotted #E5E5E5;
+  border-radius: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  overflow: hidden;
+`
+export const Plus = styled(PlusCircleOutlined)`
+  font-size: 20px;
+  color: #999999;
+`
+
+export const ImgCount = styled.img``
