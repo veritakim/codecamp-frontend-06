@@ -9,6 +9,7 @@ export interface IUploadProps {
 
 
 export interface IUploadUiProps {
+    imgData: string[]
     fileRef: RefObject<HTMLInputElement>;
     fileUrl: string;
     defaultFileUrl?: string;

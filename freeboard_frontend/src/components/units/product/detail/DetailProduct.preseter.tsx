@@ -15,6 +15,10 @@ export default function DetailProductUi (props: any) {
     <Wrapper>
       
       <div>
+        {props.data?.fetchUseditem.images.map((el, i) => {
+          <img key={i} src={`https://storage.googleapis.com/${el}`} alt="img"/> 
+
+        })}
         <div>{props.data?.fetchUseditem.name}</div>
         <div>{props.data?.fetchUseditem.remarks}</div>
         {typeof window !== "undefined" && (

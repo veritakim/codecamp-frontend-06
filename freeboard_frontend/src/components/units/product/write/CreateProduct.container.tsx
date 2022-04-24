@@ -21,13 +21,13 @@ const schema = yup.object({
 
 
 export default function CreateProductContainer (props) {
-  const {register, handleSubmit, formState, setValue, trigger} = useForm({
+  const {register, handleSubmit, formState, setValue, trigger, watch, getValues} = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange"
+    mode: "onChange",
   })
 
   const [createUseditem] = useMutation<Pick<IMutation, 'createUseditem'>, IMutationCreateUseditemArgs>(CREATE_USEDITEM)
-  const [fileUrls, setFileUrls] = useState(["", "", ""])
+  // const [fileUrls, setFileUrls] = useState(["", "", ""])
   const router = useRouter()
  
   // const [uploadFile] = useMutation<Pick<IMutation, "uploadFile">, IMutationUploadFileArgs>(UPLOAD_FILE)
@@ -40,37 +40,38 @@ export default function CreateProductContainer (props) {
   }
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    console.log(file)
+    // console.log(file)
 
     const isValid = checkFileValidation(file);
     if(!isValid) return;
 
     try{
       const result = await uploadFile({variables: {file}})
-    
+      
       setImgDate(prev => [...prev, result.data?.uploadFile.url])
-
     } catch (error: any) {
       alert(error.message)
     }
-    console.log(imgData)
   }
 
 
   const onClickSubmit = async(data:any) => {
     // 태그를 분리 시켜준다, 배열로 만들어 주기 위해
-    const {tags, price, images, ...rest} = data 
-    // console.log("tags", tags.split("#"))
-    const tagsArr = tags.split("#")
+    const {tags, price, ...rest} = data 
+    // // console.log("tags", tags.split("#"))
+    const tagsArr = tags.split(" ")
+    console.log(data)
     
-
+    console.log("tagsArr", tagsArr)
+    
     try {
       const result = await createUseditem({
         variables: {
         createUseditemInput: {
           ...rest,
           price: Number(price),
-          tags: tagsArr
+          tags: tagsArr,
+          images: imgData
           }
         }
       })
@@ -81,6 +82,7 @@ export default function CreateProductContainer (props) {
     } catch (error: any) {
       alert(error.message)
     }
+    
 
   }
 
@@ -90,16 +92,9 @@ export default function CreateProductContainer (props) {
     trigger("contents")
   }
 
-
-  // const onChangeFileUrls = (fileUrl: string, index: number) => {
-  //   const newFileUrls = [...fileUrls];
-  //   newFileUrls[index] = fileUrl;
-  //   setFileUrls(newFileUrls);
-  // };
-
   useEffect(() => {
     if (props.data?.fetchUseditem.images?.length) {
-      setFileUrls([...props.data?.fetchUseditem.images]);
+      setImgDate([...props.data?.fetchUseditem.images]);
     }
   }, [props.data]);
 
@@ -119,5 +114,7 @@ export default function CreateProductContainer (props) {
             onChangeFile={onChangeFile}
             imgData={imgData}
             fileRef={fileRef}
+            watch={watch}
+            getValues={getValues}
             />
 }

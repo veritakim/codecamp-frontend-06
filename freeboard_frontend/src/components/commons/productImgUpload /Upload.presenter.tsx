@@ -5,23 +5,26 @@ export default function UploadPresenter (props: IUploadUiProps) {
 
   return (
     <>
-      {props.fileUrl 
-      ? (
-        <S.PhotoImg
-        onClick={props.onClickUpload}
-        src={`https://storage.googleapis.com/${props.fileUrl}`}
-        />
-      ) 
-      : (
-            <S.ImgBox onClick={props.onClickUpload}>
-              <S.Plus />
-            </S.ImgBox>
-      )}
-         <S.UploadFileHidden
-        type="file"
-        ref={props.fileRef}
-        onChange={props.onChangeFile}
-      />
+      {props.imgData.map((e, i) => (
+          e !== "" &&
+          <S.PhotoImg key={i} src={`https://storage.googleapis.com/${e}`} alt="img"/> 
+      ))}
+      {props.imgData.length > 3 
+              ? (<div></div>) 
+              : (
+                <div>
+                  <S.ImgBox onClick={props.onClickUpload}>
+                      <S.Plus />
+                      </S.ImgBox>
+                  <S.UploadFileHidden
+                  type="file"
+                  ref={props.fileRef}
+                  onChange={props.onChangeFile}
+                />
+                </div>
+              )
+            }
+
     </>
   )
 

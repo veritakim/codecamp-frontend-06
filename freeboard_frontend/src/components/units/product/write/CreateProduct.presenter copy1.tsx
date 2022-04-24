@@ -3,12 +3,9 @@ import 'react-quill/dist/quill.snow.css';
 import * as S from './CreateProduct.style'
 import '@toast-ui/editor/dist/toastui-editor.css';
 import dynamic from "next/dynamic";
-import {v4 as uuid} from 'uuid'
-
 
 // import { EditorProps } from '@toast-ui/react-editor';
 import styled from "@emotion/styled";
-import UploadContainer from "../../../commons/productImgUpload /Upload.container";
 
 
 // const Editor = dynamic<EditorProps>(() => import('@toast-ui/react-editor')
@@ -45,11 +42,18 @@ export default function CreateProductUi (props: any) {
           {typeof window === "undefined" 
           ? (<div></div>)
           :
-             (<ReactQuillDiv 
+          //  (   <Editor 
+          //       initialEditType="markdown"
+          //       height="500px"
+          //       onChange={props.onChangeContents}
+                
+          //       />
+          //   )  
+          (<ReactQuillDiv 
             onChange={props.onChangeContents}
-            value={props.data ? props.data?.fetchUseditem.contents : ""}
             />)
-          }
+          
+        }
         </S.InputDiv>
 
 
@@ -70,14 +74,30 @@ export default function CreateProductUi (props: any) {
 
         <S.ImgUploadDiv>
           <S.LittleTitle>사진 첨부</S.LittleTitle>
-          {props.fileUrls?.map((el, index) => (
-          <UploadContainer
-            key={uuid()}
-            index={index}
-            fileUrl={el}
-            onChangeFileUrls={props.onChangeFileUrls}
-            />
-        ))}
+            {props.imgData.map((e, i) => (
+               e !== "" &&
+                <S.PhotoImg key={i} src={`https://storage.googleapis.com/${e}`} alt="img"/> 
+            ))}
+          
+             {/* <S.PhotoImg
+             onClick={props.onClickUpload}
+             src={`https://storage.googleapis.com/${props.fileUrl}`}
+           /> */}
+            {props.imgData.length > 3 
+              ? (<div></div>) 
+              : (
+                <div>
+                  <S.ImgBox onClick={props.onClickImage}>
+                      <S.Plus />
+                      </S.ImgBox>
+                  <S.UploadFileHidden
+                  type="file"
+                  ref={props.fileRef}
+                  onChange={props.onChangeFile}
+                />
+                </div>
+              )
+            }
         </S.ImgUploadDiv>
         
         <S.ButtonArea>
