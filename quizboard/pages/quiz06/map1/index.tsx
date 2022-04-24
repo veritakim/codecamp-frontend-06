@@ -23,7 +23,7 @@ export default function KakaoMapPage () {
     
         const map = new window.kakao.maps.Map(container, options); 
 
-        var marker = new window.kakao.maps.Marker({ 
+        let marker = new window.kakao.maps.Marker({ 
           // 지도 중심좌표에 마커를 생성합니다 
           position: map.getCenter() 
       }); 
