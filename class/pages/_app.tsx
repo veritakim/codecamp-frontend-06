@@ -1,5 +1,8 @@
 import "antd/dist/antd.css";
 // import "../styles/globals.css";
+
+import {onError} from '@apollo/client/link/error'
+
 import { AppProps } from "next/app";
 import Layout from "../src/components/commons/layout";
 import { Global } from "@emotion/react";

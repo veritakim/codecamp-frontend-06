@@ -19,6 +19,7 @@ export const InputDiv = styled.div`
   margin-bottom: 40px;
 `
 
+
 export const ImgUploadDiv = styled(InputDiv)`
   flex-direction: row;
 `
@@ -76,3 +77,10 @@ export const Plus = styled(PlusCircleOutlined)`
 `
 
 export const ImgCount = styled.img``
+
+export const MapArea = styled(InputDiv)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+

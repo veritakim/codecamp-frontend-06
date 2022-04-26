@@ -36,6 +36,7 @@
     "dompurify": "^2.3.6",
     "firebase": "^9.6.10",
     "graphql": "^16.3.0",
+    "graphql-request": "^4.2.0",
     "lodash": "^4.17.21",
     "next": "12.1.0",
     "prismjs": "^1.28.0",

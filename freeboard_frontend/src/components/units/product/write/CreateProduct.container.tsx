@@ -27,13 +27,13 @@ export default function CreateProductContainer (props) {
   })
 
   const [createUseditem] = useMutation<Pick<IMutation, 'createUseditem'>, IMutationCreateUseditemArgs>(CREATE_USEDITEM)
-  // const [fileUrls, setFileUrls] = useState(["", "", ""])
+  const [fileUrls, setFileUrls] = useState([""])
   const router = useRouter()
  
   // const [uploadFile] = useMutation<Pick<IMutation, "uploadFile">, IMutationUploadFileArgs>(UPLOAD_FILE)
   const [uploadFile] = useMutation(UPLOAD_FILE)
   const fileRef = useRef<HTMLInputElement>(null)
-  const [imgData, setImgDate] = useState([""]);
+  // const [imgData, setImgDate] = useState([""]);
 
   const onClickImage = () => {
     fileRef.current?.click();
@@ -48,7 +48,7 @@ export default function CreateProductContainer (props) {
     try{
       const result = await uploadFile({variables: {file}})
       
-      setImgDate(prev => [...prev, result.data?.uploadFile.url])
+      setFileUrls(prev => [...prev, result.data?.uploadFile.url])
     } catch (error: any) {
       alert(error.message)
     }
@@ -71,7 +71,7 @@ export default function CreateProductContainer (props) {
           ...rest,
           price: Number(price),
           tags: tagsArr,
-          images: imgData
+          images: fileUrls
           }
         }
       })
@@ -94,9 +94,17 @@ export default function CreateProductContainer (props) {
 
   useEffect(() => {
     if (props.data?.fetchUseditem.images?.length) {
-      setImgDate([...props.data?.fetchUseditem.images]);
+      setFileUrls([...props.data?.fetchUseditem.images]);
     }
   }, [props.data]);
+
+
+
+  // 주소
+  
+
+  // function onChangeAddrDetail(event: ChangeEvent<HTMLInputElement>) {}
+
 
   const onClickUpdate = (data) => {}
 
@@ -112,7 +120,7 @@ export default function CreateProductContainer (props) {
             onChangeContents={onChangeContents}
             onClickImage={onClickImage}
             onChangeFile={onChangeFile}
-            imgData={imgData}
+            fileUrls={fileUrls}
             fileRef={fileRef}
             watch={watch}
             getValues={getValues}

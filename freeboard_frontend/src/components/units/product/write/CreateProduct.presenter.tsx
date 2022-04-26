@@ -8,7 +8,8 @@ import {v4 as uuid} from 'uuid'
 
 // import { EditorProps } from '@toast-ui/react-editor';
 import styled from "@emotion/styled";
-import UploadContainer from "../../../commons/productImgUpload /Upload.container";
+import UploadContainer from "../../../commons/productImgUpload/Upload.container";
+import KakaoMapPage from "../../../commons/map";
 
 
 // const Editor = dynamic<EditorProps>(() => import('@toast-ui/react-editor')
@@ -65,7 +66,7 @@ export default function CreateProductUi (props: any) {
 
         <S.InputDiv>
           <S.LittleTitle>거래위치</S.LittleTitle>
-          <S.Input />
+          <KakaoMapPage />
         </S.InputDiv>
 
         <S.ImgUploadDiv>
@@ -84,6 +85,8 @@ export default function CreateProductUi (props: any) {
         <Button01 isActive={true} title={props.isEdit ? "수정하기" :"등록하기"}></Button01>
         </S.ButtonArea>
       </form>
+       
+
     </S.Wrapper>
   )
 }

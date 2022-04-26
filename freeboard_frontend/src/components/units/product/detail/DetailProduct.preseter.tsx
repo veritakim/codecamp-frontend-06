@@ -10,15 +10,20 @@ const Wrapper = styled.div`
 `
 
 export default function DetailProductUi (props: any) {
-
+  props.data?.fetchUseditem.images.map(el => {
+    if (el !== "") {
+      console.log(el)
+    }
+  })
   return (
     <Wrapper>
       
       <div>
-        {props.data?.fetchUseditem.images.map((el, i) => {
+        {props.data?.fetchUseditem.images.map((el, i) => 
+          el !== "" && (
           <img key={i} src={`https://storage.googleapis.com/${el}`} alt="img"/> 
-
-        })}
+          )
+        )}
         <div>{props.data?.fetchUseditem.name}</div>
         <div>{props.data?.fetchUseditem.remarks}</div>
         {typeof window !== "undefined" && (
