@@ -21,12 +21,28 @@ export default function DetailProductContainer () {
     router.push(`/product/${router.query.productId}/edit`)
   }
 
+  const onClickBaket = (el:any) => () => {
+    // alert("장바구니")
+    const baskets = JSON.parse(localStorage.getItem("baskets") || "[]")
+    const temp = baskets.filter((item) => (item._id === el._id))
+    if( temp.length === 1) {
+      alert("이미 담은 상품입니다")
+      return
+    }
+
+    const { __typename, ...newEl } = el
+    baskets.push(newEl)
+    localStorage.setItem("baskets", JSON.stringify(baskets))
+    alert("장바구니에 상품을 담았습니다")
+  }
+
 
   return (
     <DetailProductUi 
       data={data}
       userInfo={userInfo}
       onClickUpdate={onClickUpdate}
+      onClickBaket={onClickBaket}
     />
   )
 }

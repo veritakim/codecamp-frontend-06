@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
 import Dompurify from 'dompurify'
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 const Wrapper = styled.div`
   width: 800px;
@@ -7,6 +8,11 @@ const Wrapper = styled.div`
   background-color: #E1E0DD;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
+`
+
+const Basket = styled(ShoppingBasketIcon)`
+  cursor: pointer;
+  color: #BEBEBE;
 `
 
 export default function DetailProductUi (props: any) {
@@ -31,6 +37,7 @@ export default function DetailProductUi (props: any) {
           {__html: Dompurify.sanitize(props.data?.fetchUseditem.contents)}
         }></div>
       )}
+        <Basket onClick={props.onClickBaket(props.data?.fetchUseditem)} />
         <div>{props.data?.fetchUseditem.price}</div>
         {props.userInfo.email === props.data?.fetchUseditem.seller.email 
         ? (<button onClick={props.onClickUpdate}>수정하기</button>) 

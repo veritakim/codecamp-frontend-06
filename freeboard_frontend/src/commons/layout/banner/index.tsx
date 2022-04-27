@@ -44,7 +44,7 @@ export default function Layoutbanner () {
     centerPadding: '0px'
   }
 
-  const imgSrc = ["/img1.jpeg", "/img2.jpeg", "/landing.jpeg"]
+  const imgSrc = ["/slickImg/nightSky.jpeg", "/slickImg/rocket.png", "/slickImg/whale.jpeg"]
 
   return (
   <Wrapper>

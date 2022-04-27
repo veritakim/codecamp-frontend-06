@@ -12,3 +12,8 @@ export const userInfomationState = atom({
     name: ""
   }
 })
+
+export const visitedPageState = atom({
+  key: "visitedPageState",
+  default: "/"
+})

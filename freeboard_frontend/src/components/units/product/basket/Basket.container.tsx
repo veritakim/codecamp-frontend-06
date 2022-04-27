@@ -1,0 +1,44 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import BasketUi from "./Basket.presenter";
+
+export default function BasketContainer () {
+  const [basketItems, setBasketItems] = useState([""])
+  const router = useRouter()
+  // 체크 박스
+  const [checkedItems, setCheckedItems] = useState<string[]>([])
+
+  useEffect(() => {
+    const baskets = JSON.parse(localStorage.getItem("baskets")|| "[]")
+    setBasketItems(baskets)
+  }, [])
+
+  const checkedItemHandler = ( code: any, isChecked: boolean ) => {
+    if ( isChecked ) {
+      setCheckedItems( [ ...checkedItems, code ] )
+    } else if ( !isChecked && checkedItems.find( one => one === code ) ) {
+      const filter = checkedItems.filter( one => one !== code )
+      setCheckedItems( [ ...filter ] )
+    }
+  }
+
+  // 전체선택
+  const onCheckAll = ( checked: any ) => {
+    if ( checked ) {
+      const checkedItemsArr = []
+    }
+  }
+
+  const onClickPayment = () => {
+    router.push('/product/payment')
+
+  }
+
+
+
+  return <BasketUi 
+          basketItems={basketItems}
+          checkedItemHandler={checkedItemHandler}
+          onClickPayment={onClickPayment}
+        />
+}
