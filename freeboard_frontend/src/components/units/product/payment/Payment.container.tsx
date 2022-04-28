@@ -1,41 +1,39 @@
-import { useState } from "react";
-import Head from 'next/head'
 
+import { useMutation, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import PaymentUi from "./Payment.presenter";
+import { CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING, FETCH_USED_ITEM, FETCH_USER_LOGGED_IN } from "./Payment.query";
 
-declare const window: typeof globalThis & {
-  IMP: any
-}
 
 export default function PaymentContainer () {
-  const [amount, ] = useState(100)
+  const router = useRouter()
+  const useritemId = router.query.itemId
+
+  const {data} = useQuery(FETCH_USED_ITEM, {
+    variables: {useditemId: useritemId}
+  })
+
+  const {data: userData} = useQuery(FETCH_USER_LOGGED_IN)
+
+  const [createPointTransactionOfBuyingAndSelling] = useMutation(CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING)
+
+  const onClickMoveToBuyProduct = async () => {
+    try {
+      await createPointTransactionOfBuyingAndSelling({
+        variables: { useritemId },
+      });
+      alert("구매 완료")
+      router.push('/user/myPage')
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
 
   
-  const requestPay = () => {
-    const IMP = window.IMP; 
-    IMP.init("imp19916705"); 
-    // 포폴에서 결제할때 식별코드 : imp49910675 
-    IMP.request_pay({ 
-      pg: "html5_inicis",
-      pay_method: "card",
-      name: "노르웨이 회전 의자",
-      amount: amount,
-      buyer_email: "gildong@gmail.com",
-      buyer_name: "홍길동",
-      buyer_tel: "010-4242-4242",
-      buyer_addr: "서울특별시 강남구 신사동",
-      buyer_postcode: "01181",
-      m_redirect_url: "http://localhost:3000/28-01-payment"
-    }, (rsp: any) => { 
-      if (rsp.success) {
-        console.log(rsp)
-        
-      } else {
-        alert("결제 실패")
-      }
-    });
-  }
-
-
-  return <PaymentUi />
+  
+  return <PaymentUi 
+            data={data}
+            onClickMoveToBuyProduct={onClickMoveToBuyProduct}
+            userData={userData}
+        />
 }

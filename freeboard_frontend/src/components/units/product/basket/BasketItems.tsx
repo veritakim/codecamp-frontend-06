@@ -4,7 +4,7 @@ export default function BasketItems (props) {
   return (
     <>
       <div key={uuid()}>
-        <input type="checkbox" />
+        <input type="checkbox" value={props.el.price} onChange={props.onChangeValue}/>
         <div>{props.el.name}</div>
         <div>{props.el.price}</div>
       </div>

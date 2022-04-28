@@ -36,6 +36,10 @@ export default function DetailProductContainer () {
     alert("장바구니에 상품을 담았습니다")
   }
 
+  const onClickBuy = (id: string) => () => {
+    router.push(`/payment/${id}`)
+  }
+
 
   return (
     <DetailProductUi 
@@ -43,6 +47,7 @@ export default function DetailProductContainer () {
       userInfo={userInfo}
       onClickUpdate={onClickUpdate}
       onClickBaket={onClickBaket}
+      onClickBuy={onClickBuy}
     />
   )
 }

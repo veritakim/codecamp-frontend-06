@@ -10,6 +10,7 @@ import {v4 as uuid} from 'uuid'
 import styled from "@emotion/styled";
 import UploadContainer from "../../../commons/productImgUpload/Upload.container";
 import KakaoMapPage from "../../../commons/map";
+import { useEffect } from "react";
 
 
 // const Editor = dynamic<EditorProps>(() => import('@toast-ui/react-editor')
@@ -21,6 +22,9 @@ const ReactQuillDiv = styled(ReactQuill)`
 `
 
 export default function CreateProductUi (props: any) {
+  useEffect(() => {
+    props.reset({ contents: props.data?.fetchUseditem.contents });
+  }, [props.data]);
 
   return (
     <S.Wrapper>
@@ -48,7 +52,7 @@ export default function CreateProductUi (props: any) {
           :
              (<ReactQuillDiv 
             onChange={props.onChangeContents}
-            value={props.data ? props.data?.fetchUseditem.contents : ""}
+            value={props.getValues("contents") || ""}
             />)
           }
         </S.InputDiv>
@@ -61,24 +65,29 @@ export default function CreateProductUi (props: any) {
 
         <S.InputDiv>
           <S.LittleTitle>태그입력</S.LittleTitle>
-          <S.Input {...props.register("tags")} defaultValue={props.data ? props.data?.fetchUseditem.tags : ""}/>
+          <span>{props.hashArray.map((el, idx) => (
+          <span key={idx}>{el}</span>
+          ))}
+        </span>
+          <S.Input onKeyUp={props.onKeyUpHash} {...props.register("tags")} defaultValue={props.data ? props.data?.fetchUseditem.tags : ""}/>
         </S.InputDiv>
 
         <S.InputDiv>
           <S.LittleTitle>거래위치</S.LittleTitle>
-          <KakaoMapPage />
+          <KakaoMapPage 
+              useditemAddress={props.useditemAddress} 
+              setUseditemAddress={props.setUseditemAddress} 
+              setMap={props.setMap}
+              />
         </S.InputDiv>
 
         <S.ImgUploadDiv>
           <S.LittleTitle>사진 첨부</S.LittleTitle>
-          {props.fileUrls?.map((el, index) => (
           <UploadContainer
             key={uuid()}
-            index={index}
-            fileUrl={el}
-            onChangeFileUrls={props.onChangeFileUrls}
+            setFileUrls={props.setFileUrls}
+            fileUrls={props.fileUrls}
             />
-        ))}
         </S.ImgUploadDiv>
         
         <S.ButtonArea>

@@ -12,7 +12,7 @@ export default function paymentPage () {
   
   const requestPay = () => {
     const IMP = window.IMP; // 생략 가능
-    IMP.init("imp19916705"); // Example: imp00000000 가맹점 식별코드
+    IMP.init("imp49910675"); // Example: imp00000000 가맹점 식별코드
     // 포폴에서 결제할때 식별코드 : imp49910675 
     // IMP.request_pay(param, callback) 결제창 호출
     IMP.request_pay({ // param

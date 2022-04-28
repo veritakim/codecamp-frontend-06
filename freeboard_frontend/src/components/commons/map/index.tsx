@@ -10,13 +10,13 @@ declare const window: typeof globalThis & {
 export default function KakaoMapPage (props) {
   const [isOpen, setIsOpen] = useState(false);
   const [address, setAddress] = useState("")
-  // console.log("wnth!!!", address)
 
   const setToggle = () => {
     setIsOpen(prev => !prev)
   }
 
   const handleComplete = (data: any) => {
+    console.log(data)
     let fullAddress = data.address;
     let extraAddress = ''; 
    
@@ -30,6 +30,11 @@ export default function KakaoMapPage (props) {
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
     setAddress(`${data.sigungu} ${data.query}`)
+    props.setUseditemAddress({
+      ...props.useItemAddress,
+      zipcode: data.zonecode,
+      address: fullAddress,
+    })
 
     setToggle()
   } 
@@ -66,6 +71,11 @@ export default function KakaoMapPage (props) {
 
                 const x = result[0].x
                 const y = result[0].y
+
+                props.setMap({
+                  lat: Number(y),
+                  lng: Number(x)
+                })
 
                 const coords = new window.kakao.maps.LatLng(y, x)
 

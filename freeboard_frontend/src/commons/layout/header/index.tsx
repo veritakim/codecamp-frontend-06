@@ -1,5 +1,7 @@
+import { useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
 import { useRouter } from "next/router"
+import { FETCH_USER_LOGGED_IN } from "../../../components/units/user/login/Login.query"
 
 const Wrapper = styled.div`
   height: 100px;
@@ -34,6 +36,11 @@ const Font = styled.span`
 
 export default function LayoutHeader () {
   const router = useRouter();
+
+  const moveToMarket = () => {
+    router.push('/product/list')
+  }
+
   const moveBoardList = () => {
     router.push('/boards')
   }
@@ -42,10 +49,17 @@ export default function LayoutHeader () {
     router.push('/user/login')
   }
 
+  const moveMypage = () => {
+    router.push('/user/myPage')
+  }
+
+  const userLoggedIn = useQuery(FETCH_USER_LOGGED_IN)
+
   return( 
     <Wrapper>
+      <Boards><Font onClick={moveToMarket}>중고게시판</Font></Boards>
       <Boards><Font onClick={moveBoardList}>자유게시판</Font></Boards>
-      <Login><Font onClick={moveLogin}>로그인</Font></Login>
-      <MyPage><Font>마이페이지</Font></MyPage>
+      <Login><Font onClick={moveLogin}>{userLoggedIn ? "로그아웃" : "로그인"}</Font></Login>
+      <MyPage><Font onClick={moveMypage}>마이페이지</Font></MyPage>
     </Wrapper> );
 }

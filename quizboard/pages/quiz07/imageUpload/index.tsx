@@ -44,6 +44,8 @@ export default function ImageUploadPage () {
     fileReader.onload = (data) => {
       if (typeof data.target?.result === "string") {
         const tempUrls = [data.target?.result]
+
+        console.log(tempUrls)
         setImgUrls(tempUrls)
 
         setFiles([file])

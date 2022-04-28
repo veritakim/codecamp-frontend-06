@@ -39,6 +39,7 @@ export default function DetailProductUi (props: any) {
       )}
         <Basket onClick={props.onClickBaket(props.data?.fetchUseditem)} />
         <div>{props.data?.fetchUseditem.price}</div>
+        <button onClick={props.onClickBuy(props.data?.fetchUseditem._id)}>구매하기</button>
         {props.userInfo.email === props.data?.fetchUseditem.seller.email 
         ? (<button onClick={props.onClickUpdate}>수정하기</button>) 
         : (<div></div>)

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import BasketUi from "./Basket.presenter";
 
 export default function BasketContainer () {
@@ -7,6 +7,8 @@ export default function BasketContainer () {
   const router = useRouter()
   // 체크 박스
   const [checkedItems, setCheckedItems] = useState<string[]>([])
+  const [amout, setAmount] = useState(0)
+  const amount = []
 
   useEffect(() => {
     const baskets = JSON.parse(localStorage.getItem("baskets")|| "[]")
@@ -23,16 +25,27 @@ export default function BasketContainer () {
   }
 
   // 전체선택
+  /*
   const onCheckAll = ( checked: any ) => {
     if ( checked ) {
       const checkedItemsArr = []
     }
   }
+  */
 
   const onClickPayment = () => {
     router.push('/product/payment')
-
   }
+
+  const onChangeValue = (event:MouseEvent<HTMLInputElement>) => {
+    // alert(event.currentTarget.value)
+    // amount.push(event.currentTarget.value)
+    const price = event.currentTarget.value
+    setAmount(prev => prev + parseInt(price))
+    alert(amout)
+  }
+  // console.log("amount", amount)
+  // alert(amount)
 
 
 
@@ -40,5 +53,6 @@ export default function BasketContainer () {
           basketItems={basketItems}
           checkedItemHandler={checkedItemHandler}
           onClickPayment={onClickPayment}
+          onChangeValue={onChangeValue}
         />
 }
