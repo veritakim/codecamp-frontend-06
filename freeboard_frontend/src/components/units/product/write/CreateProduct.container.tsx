@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import { useMutation } from "@apollo/client";
 import { CREATE_USEDITEM } from "./CreateProduct.query";
 import { IMutation, IMutationCreateUseditemArgs } from "../../../../commons/types/generated/types";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
 
 const schema = yup.object({
@@ -24,6 +24,8 @@ export default function CreateProductContainer (props: any) {
     resolver: yupResolver(schema),
     mode: "onChange",
   })
+
+  const router = useRouter()
 
   const [hashArray, setHashArray] = useState<string[]>([])
 
@@ -55,11 +57,10 @@ export default function CreateProductContainer (props: any) {
     const {tags, price, ...rest} = data 
 
     const tagsArr = tags.split(" ")
-    console.log(data)
+    // console.log(data)
+    console.log(hashArray)
     
-    console.log("img", fileUrls)
     
-    /*
     try {
       const result = await createUseditem({
         variables: {
@@ -67,7 +68,7 @@ export default function CreateProductContainer (props: any) {
           ...rest,
           price: Number(price),
           tags: tagsArr,
-          images: fileUrls,
+          // images: fileUrls,
           useditemAddress: {
             ...useditemAddress,
             ...map
@@ -83,7 +84,7 @@ export default function CreateProductContainer (props: any) {
     } catch (error: any) {
       alert(error.message)
     }
-    */
+    
     
 
   }

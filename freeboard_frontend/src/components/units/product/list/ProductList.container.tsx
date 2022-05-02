@@ -73,13 +73,17 @@ export default function ProductListContainer () {
           hasMore={true}
           useWindow={false}
       >
-      {data?.fetchUseditems.map((el: any) => (
-      <ProductListUi 
-        key={uuid()}
-        el={el}
-        onClickMove={onClickMove}
-        onLoadMore={onLoadMore}
-      />
+      {data?.fetchUseditems.map((el: any, index) => (
+        <>
+        <ProductListUi 
+          key={uuid()}
+          el={el}
+          onClickMove={onClickMove}
+          onLoadMore={onLoadMore}
+          index={index}
+        />
+        {(index + 1) % 3 === 0 && <br />}
+        </>
       ))}
 
       </InfiniteScroll>

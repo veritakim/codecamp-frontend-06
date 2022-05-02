@@ -25,6 +25,7 @@ export default function ProductListUi (props: any) {
       }
 
       </div>
+   
     </Wrapper>
   )
 }
