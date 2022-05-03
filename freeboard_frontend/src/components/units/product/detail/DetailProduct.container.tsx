@@ -2,9 +2,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { myBasketCounts, userInfomationState } from "../../../../commons/store";
+import { myBasketCounts, myTodayBasket, userInfomationState } from "../../../../commons/store";
 import DetailProductUi from "./DetailProduct.preseter";
-import { DELETE_USED_ITEM, FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from "./DetailProduct.query";
+import { DELETE_USED_ITEM, FETCH_USED_ITEM, FETCH_USED_ITEM_IPICKED, TOGGLE_USED_ITEM_PICK } from "./DetailProduct.query";
 
 export default function DetailProductContainer () {
   const router = useRouter()
@@ -13,6 +13,20 @@ export default function DetailProductContainer () {
       useditemId: router.query.productId
     }
   })
+
+  const { data: ipicked1 } = useQuery(FETCH_USED_ITEM_IPICKED)
+
+  const { data: ipicked2 } = useQuery(FETCH_USED_ITEM_IPICKED, {
+    variables: {
+      page: 2
+    }
+  })
+
+  // const iPicked = ipicked1.concat(ipicked2)
+  // console.log("pick",ipicked1)
+
+  const [, setTodayState] = useRecoilState(myTodayBasket)
+  setTodayState(false)
 
   const [userInfo] = useRecoilState(userInfomationState)
 
@@ -34,7 +48,6 @@ export default function DetailProductContainer () {
     alert("장바구니에 상품을 담았습니다")
     setBasketRecoil(baskets.length)
   }
-  // console.log("coutn", basketCount)
 
   // pick
   const [itemPick] = useMutation(TOGGLE_USED_ITEM_PICK)

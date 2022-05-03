@@ -31,7 +31,7 @@ export default function QuestionListPage (props: any) {
   // 문의 가져오기
   // const { data, fetchMore } = useQuery(FETCH_USED_ITEM_QUESTIONS, {
 
-  console.log("list", props.id)
+  // console.log("list", props.id)
   const { data } = useQuery(FETCH_USED_ITEM_QUESTIONS, {
     variables: {
       useditemId: props.id

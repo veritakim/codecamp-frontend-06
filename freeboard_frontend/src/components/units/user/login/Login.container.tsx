@@ -55,7 +55,7 @@ export default function LoginContainer() {
       setAccessToken(accessToken);
 
       localStorage.setItem("accessToken", accessToken)
-      localStorage.setItem("userInfo", JSON.stringify(userInfo))
+      // localStorage.setItem("userInfo", JSON.stringify(userInfo))
 
       router.push('/boards')
 

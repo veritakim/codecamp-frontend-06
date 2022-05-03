@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+import { getAccessToken } from "../library/getAccessToken";
 
 export const accessTokenState = atom({
   key: "accessTokenState",
@@ -27,3 +28,12 @@ export const myTodayBasket = atom({
   key: "myTodayBasket",
   default: false
 }) 
+
+export const restoreAccessTokenLoadable = selector({
+  key: "restoreAccessTokenLoadable",
+  get: async () => {
+    const newAccessToken = await getAccessToken();
+    return newAccessToken;
+  },
+});
+

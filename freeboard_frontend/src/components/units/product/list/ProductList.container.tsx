@@ -6,11 +6,13 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import {v4 as uuid} from 'uuid'
 import { useEffect, useState, MouseEvent } from "react";
+import { useRecoilState } from "recoil";
+import { myTodayBasket } from "../../../../commons/store";
 
 const InfiniteWrapper = styled.div``
 
 export default function ProductListContainer () {
-  // const [todayList, setTodayList] = useState([""])
+  const [, setTodayState] = useRecoilState(myTodayBasket)
 
   const newDate = new Date();
   const yyyy = newDate.getFullYear()
@@ -18,11 +20,6 @@ export default function ProductListContainer () {
   const dd = newDate.getDate()
 
   const today = `${yyyy}-${mm}-${dd}`
-
-  // useEffect(() => {
-  //   const baskets = JSON.parse(localStorage.getItem(today)|| "[]")
-  //   // setTodayList(baskets)
-  // }, [])
 
   const {data, fetchMore } = useQuery(FETCH_USED_ITEMS)
   const router = useRouter()
@@ -55,6 +52,8 @@ export default function ProductListContainer () {
     const { __typename, ...newEl } = value
     baskets.push(newEl)
     localStorage.setItem(today, JSON.stringify(baskets))
+
+    setTodayState(prev => !prev)
     
     // console.log(value._id)
     router.push(`/product/${value._id}`)

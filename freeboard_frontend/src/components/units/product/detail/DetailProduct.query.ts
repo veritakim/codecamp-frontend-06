@@ -40,3 +40,11 @@ export const DELETE_USED_ITEM = gql`
   }
 
 `
+
+export const FETCH_USED_ITEM_IPICKED = gql`
+  query fetchUseditemsIPicked ($page: Int) {
+    fetchUseditemsIPicked(page: $page) {
+      _id
+    }
+  }
+`
