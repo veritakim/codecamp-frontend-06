@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useMutation } from "@apollo/client";
-import { CREATE_USEDITEM } from "./CreateProduct.query";
+import { CREATE_USEDITEM, UPDATE_USEDITEM } from "./CreateProduct.query";
 import { IMutation, IMutationCreateUseditemArgs } from "../../../../commons/types/generated/types";
-import { ChangeEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const schema = yup.object({
@@ -29,18 +29,12 @@ export default function CreateProductContainer (props: any) {
 
   const [hashArray, setHashArray] = useState<string[]>([])
 
-   const onKeyUpHash = (event: any) => {
-    // keyCode의 32는 space
-    if (event.keyCode === 32 && event.target.value !== " ") {
-      setHashArray([...hashArray, "#" + event.target.value])
-      event.target.value = ""
-    }
-
-    console.log(hashArray)
-  }
+  console.log(props.data)
 
   const [createUseditem] = useMutation<Pick<IMutation, 'createUseditem'>, IMutationCreateUseditemArgs>(CREATE_USEDITEM)
-  const [fileUrls, setFileUrls] = useState<(File | undefined)[]>([undefined, undefined, undefined])
+  const [updateUseditem] = useMutation(UPDATE_USEDITEM)
+  
+  const [fileUrls, setFileUrls] = useState(["", "", ""])
   const [useditemAddress, setUseditemAddress] = useState({
     zipcode: "",
     address: "",
@@ -52,42 +46,20 @@ export default function CreateProductContainer (props: any) {
     lng: 0.0
   })
 
-
-  const onClickSubmit = async(data:any) => {
-    const {tags, price, ...rest} = data 
-
-    const tagsArr = tags.split(" ")
-    // console.log(data)
-    console.log(hashArray)
-    
-    
-    try {
-      const result = await createUseditem({
-        variables: {
-        createUseditemInput: {
-          ...rest,
-          price: Number(price),
-          tags: tagsArr,
-          // images: fileUrls,
-          useditemAddress: {
-            ...useditemAddress,
-            ...map
-          }
-          }
-        }
-      })
-      
-
-      alert("게시물이 등록되었습니다")
-      router.push(`/product/${result.data?.createUseditem._id}`)
-
-    } catch (error: any) {
-      alert(error.message)
+  const onKeyUpHash = (event: any) => {
+    if (event.keyCode === 32 && event.target.value !== " ") {
+      setHashArray([...hashArray, "#" + event.target.value])
+      event.target.value = ""
     }
-    
-    
 
+    console.log(hashArray)
   }
+
+  const onChangeFileUrls = (fileUrl: string, index: number) => {
+    const newFileUrls = [...fileUrls];
+    newFileUrls[index] = fileUrl;
+    setFileUrls(newFileUrls);
+  };
 
   const onChangeContents = (value: string) => {
     console.log(value)
@@ -95,20 +67,91 @@ export default function CreateProductContainer (props: any) {
     trigger("contents")
   }
 
-  // useEffect(() => {
-  //   if (props.data?.fetchUseditem.images?.length) {
-  //     setFileUrls([...props.data?.fetchUseditem.images]);
-  //   }
-  // }, [props.data]);
+  // 상품 등록
+  const onClickSubmit = async(data:any) => {
+    const {price, ...rest} = data 
 
+    try {
+      const result = await createUseditem({
+        variables: {
+        createUseditemInput: {
+          ...rest,
+          price: parseInt(price),
+          tags: hashArray,
+          images: fileUrls,
+          useditemAddress: {
+            ...useditemAddress,
+            ...map
+          }
+          }
+        }
+      })
 
+      alert("상품이 등록되었습니다")
+      router.push(`/product/${result.data?.createUseditem._id}`)
 
-  // 주소
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+    useEffect(() => {
+    if (props.data?.fetchUseditem.images?.length) {
+      setFileUrls([...props.data?.fetchUseditem.images]);
+    }
+  }, [props.data]);
+
   
 
-  function onChangeAddrDetail(event: ChangeEvent<HTMLInputElement>) {
-  }
-  const onClickUpdate = (data) => {}
+  // 수정
+  const onClickUpdate = async (data) => {
+    const updateVariables = {
+      name: data.name ? data.name : props.data?.name,
+      remarks: data.remarks ? data.remarks : props.data?.remarks,
+      contents: data.contents ? data.contents : props.data?.contents,
+      price: data.price ? parseInt(data.price) : parseInt(props.data?.price),
+      tags: !hashArray[0] ? props.data?.fetchUseditem.tags : hashArray,
+      images: fileUrls
+    };
+
+    const updateAddress = {
+      zipcode: useditemAddress.zipcode
+          ? useditemAddress.zipcode
+          : props.data?.fetchUseditem.useditemAddress.zipcode,
+        address: useditemAddress.address
+          ? useditemAddress.address
+          : props.data?.fetchUseditem.useditemAddress.address,
+        addressDetail: useditemAddress.addressDetail
+          ? useditemAddress.addressDetail
+          : props.data?.fetchUseditem.useditemAddress.addressDetail,
+        lat: map.lat ? map.lat : props.data?.fetchUseditem.useditemAddress.lat,
+        lng: map.lng ? map.lng : props.data?.fetchUseditem.useditemAddress.lng
+    }
+
+    try {
+      await updateUseditem({
+        variables: {
+          updateUseditemInput: {
+            name: updateVariables.name,
+            remarks: updateVariables.remarks,
+            contents: updateVariables.contents,
+            price: updateVariables.price,
+            tags: updateVariables.tags,
+            images: updateVariables.images,
+            useditemAddress: {
+              ...updateAddress
+            }
+          },
+          useditemId: String(router.query.productId),
+        }
+      });
+      alert("상품이 수정되었습니다.");
+      router.push(`/product/${router.query.productId}`);
+
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
   return <CreateProductUi
             handleSubmit={handleSubmit}
@@ -129,5 +172,6 @@ export default function CreateProductContainer (props: any) {
             reset={reset}
             hashArray={hashArray}
             onKeyUpHash={onKeyUpHash}
+            onChangeFileUrls={onChangeFileUrls}
             />
 }

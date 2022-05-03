@@ -1,13 +1,12 @@
 import { useMutation } from "@apollo/client";
-import { Modal } from "antd";
 import { ChangeEvent, useRef } from "react";
-import UploadPresenter from "./Upload.presenter";
-import { UPLOAD_FILE } from "./Upload.query";
-import { IUploadProps } from "./Upload.types";
-import { checkValidationImage } from "./Upload.validation";
+import { checkValidationImage } from "./Uploads.validation";
+import Uploads01UI from "./Uploads.presenter";
+import { IUploads01Props } from "./Uploads.types";
+import { UPLOAD_FILE } from "./Uploads.queries";
+import { Modal } from "antd";
 
-export default function UploadContainer (props: IUploadProps) {
-
+export default function UploadContainer(props: IUploads01Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadFile] = useMutation(UPLOAD_FILE);
 
@@ -22,14 +21,18 @@ export default function UploadContainer (props: IUploadProps) {
     try {
       const result = await uploadFile({ variables: { file } });
       props.onChangeFileUrls(result.data.uploadFile.url, props.index);
-    } catch (error: any) {
+    } catch (error) {
       Modal.error({ content: error.message });
     }
   };
-  return <UploadPresenter 
-  fileRef={fileRef}
-  fileUrl={props.fileUrl}
-  defaultFileUrl={props.defaultFileUrl}
-  onClickUpload={onClickUpload}
-  onChangeFile={onChangeFile} />
+
+  return (
+    <Uploads01UI
+      fileRef={fileRef}
+      fileUrl={props.fileUrl}
+      defaultFileUrl={props.defaultFileUrl}
+      onClickUpload={onClickUpload}
+      onChangeFile={onChangeFile}
+    />
+  );
 }

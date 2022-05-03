@@ -24,7 +24,7 @@ export const MyAddrCodeInput = styled.div`
 `
 
 export const AddressInput = styled.div`
-  width: 422px;
+  width: 962px;
   height: 52px;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@ export const AddressInput = styled.div`
 `
 
 export const DetailAddrInput = styled.input`
-   width: 422px;
+   width: 962px;
    height: 52px;
    background-color: #E9E9E9;
    border: none;

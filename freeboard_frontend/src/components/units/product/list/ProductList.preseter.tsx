@@ -11,8 +11,8 @@ const Wrapper = styled.div`
 export default function ProductListUi (props: any) {
 
   return (
-    <Wrapper>
-      <div id={props.el._id} onClick={props.onClickMove(props.el)}>
+    <Wrapper id={props.el._id} onClick={props.onClickMove(props.el)}>
+      <div>
         <div>{props.el.name}</div>
         <div>{props.el.price}</div>
         <div>{props.el.pickedCount}</div>

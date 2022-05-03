@@ -1,28 +1,26 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { userInfomationState } from "../../../../commons/store";
+import { myBasketCounts, userInfomationState } from "../../../../commons/store";
 import DetailProductUi from "./DetailProduct.preseter";
-import { FETCH_USED_ITEM } from "./DetailProduct.query";
+import { DELETE_USED_ITEM, FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from "./DetailProduct.query";
 
 export default function DetailProductContainer () {
   const router = useRouter()
-  
-  const [userInfo] = useRecoilState(userInfomationState)
-  
-
   const {data} = useQuery(FETCH_USED_ITEM, {
     variables: {
       useditemId: router.query.productId
     }
   })
-  
-  const onClickUpdate = () => {
-    router.push(`/product/${router.query.productId}/edit`)
-  }
 
+  const [userInfo] = useRecoilState(userInfomationState)
+
+  const [deleteItem] = useMutation(DELETE_USED_ITEM)
+  
+  // 장바구니 recoil 이용해보자
+  const [, setBasketRecoil] = useRecoilState(myBasketCounts)
   const onClickBaket = (el:any) => () => {
-    // alert("장바구니")
     const baskets = JSON.parse(localStorage.getItem("baskets") || "[]")
     const temp = baskets.filter((item) => (item._id === el._id))
     if( temp.length === 1) {
@@ -34,20 +32,80 @@ export default function DetailProductContainer () {
     baskets.push(newEl)
     localStorage.setItem("baskets", JSON.stringify(baskets))
     alert("장바구니에 상품을 담았습니다")
+    setBasketRecoil(baskets.length)
+  }
+  // console.log("coutn", basketCount)
+
+  // pick
+  const [itemPick] = useMutation(TOGGLE_USED_ITEM_PICK)
+  const [clicked, setClicked] = useState(false)
+  
+  const onClickHeart = (id) => async() => {
+    // alert(id)
+    setClicked(prev => !prev)
+    try{
+      await itemPick({
+        variables: {
+          useditemId: String(id)
+        },
+        refetchQueries: [{
+          query: FETCH_USED_ITEM,
+          variables: {
+            useditemId: String(id)
+          }
+        }]
+      })
+      // alert("찜하기 완료")
+
+    } catch(e) {
+      console.log(e.message)
+    }
   }
 
-  const onClickBuy = (id: string) => () => {
+
+  const onClickUpdate = () => {
+    router.push(`/product/${router.query.productId}/edit`)
+  }
+
+  const imgUrl = data?.fetchUseditem.images.filter((e:string) => e != "")[0]
+
+
+  // 구매하기
+  const onClickBuyItem = (id: string) => () => {
     router.push(`/payment/${id}`)
   }
 
+  // 삭제하기
+  const onClickDelete = (id: string) => async () => {
 
+    alert("해당 상품을 삭제하시겠습니까?")
+    try {
+     await deleteItem({
+       variables: {
+        useditemId: String(id)
+       }
+     })
+
+     router.push("/")
+     alert("삭제가 완료되었습니다.")
+    } catch(e) {
+      alert(e.message)
+    }    
+  }
+
+
+  // console.log("data", data)
   return (
     <DetailProductUi 
-      data={data}
-      userInfo={userInfo}
-      onClickUpdate={onClickUpdate}
-      onClickBaket={onClickBaket}
-      onClickBuy={onClickBuy}
+    data={data}
+    imgUrl={imgUrl}
+    userInfo={userInfo}
+    onClickUpdate={onClickUpdate}
+    onClickBaket={onClickBaket}
+    onClickBuyItem={onClickBuyItem}
+    onClickDelete={onClickDelete}
+    onClickHeart={onClickHeart}
+    clicked={clicked}
     />
   )
 }

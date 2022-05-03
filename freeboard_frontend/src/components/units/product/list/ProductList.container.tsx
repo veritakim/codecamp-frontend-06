@@ -44,14 +44,10 @@ export default function ProductListContainer () {
     })
   }
 
-  const onClickMove =  (value) => () => {
-    // alert(event)
-    // console.log()
-
-    
+  const onClickMove = (value) => (event) => {
     const baskets = JSON.parse(localStorage.getItem(today) || "[]") 
     
-    const temp = baskets.filter((item) => (item._id === value._id))
+    const temp = baskets.filter((item) => (item._id === event.currentTarget.value))
     if( temp.length === 1) {
       return
     }
@@ -60,6 +56,7 @@ export default function ProductListContainer () {
     baskets.push(newEl)
     localStorage.setItem(today, JSON.stringify(baskets))
     
+    // console.log(value._id)
     router.push(`/product/${value._id}`)
   }
 

@@ -1,13 +1,14 @@
-import { Modal } from "antd";
+import { Modal } from "antd"
 import { useEffect, useState } from "react"
-import DaumPostcode from "react-daum-postcode";
+import DaumPostcode from "react-daum-postcode"
 import * as S from './MapStyle'
 
 declare const window: typeof globalThis & {
   kakao: any;
 }
 
-export default function KakaoMapPage (props) {
+export default function KakaoMapPage3 (props) {
+  const [load, setLoad] = useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [address, setAddress] = useState("")
   const [addr, setAddr] = useState({
@@ -18,6 +19,8 @@ export default function KakaoMapPage (props) {
   const setToggle = () => {
     setIsOpen(prev => !prev)
   }
+
+  // console.log("gg", props)
 
   const handleComplete = (data: any) => {
     // console.log(data)
@@ -40,18 +43,13 @@ export default function KakaoMapPage (props) {
     })
 
     setAddress(`${data.sigungu} ${data.query}`)
-    props.setUseditemAddress({
-      ...props.useItemAddress,
-      zipcode: data.zonecode,
-      address: fullAddress,
-    })
-
+    
     setToggle()
   } 
 
-
-
   useEffect(() => {
+    // if(!load) return
+    console.log("수정",props.data)
     const script = document.createElement("script") 
     script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=efcf168dc6a63b0bd8468072c5ae3c30&libraries=services&autoload=false"
 
@@ -61,8 +59,8 @@ export default function KakaoMapPage (props) {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map'); 
         const options = {
-          center: new window.kakao.maps.LatLng(37.2939104, 127.2025664 ), 
-          level: 2
+          center: new window.kakao.maps.LatLng(props.lat, props.lng), 
+          level: 3
         };
     
         const map = new window.kakao.maps.Map(container, options); 
@@ -70,73 +68,74 @@ export default function KakaoMapPage (props) {
         let marker = new window.kakao.maps.Marker({ 
           position: map.getCenter() 
         }); 
+        
         marker.setMap(map);
 
         const geocoder = new window.kakao.maps.services.Geocoder();
-
         const callback = function(result, status) {
-            if (status === window.kakao.maps.services.Status.OK) {
+          if (status === window.kakao.maps.services.Status.OK) {
 
-                const x = result[0].x
-                const y = result[0].y
-                console.log("여긴맵페이지",x, y)
-                props.setMap({
-                  lat: Number(y),
-                  lng: Number(x)
-                })
+              const x = result[0].x
+              const y = result[0].y
+              props.setMap({
+                lat: Number(y),
+                lng: Number(x)
+              })
 
-                const coords = new window.kakao.maps.LatLng(y, x)
+              const coords = new window.kakao.maps.LatLng(y, x)
 
-                marker = new window.kakao.maps.Marker({
-                  map: map,
-                  position: coords
-                });
+              marker = new window.kakao.maps.Marker({
+                map: map,
+                position: coords
+              });
 
-                map.setCenter(coords)
-            }
-        };
+              map.setCenter(coords)
+          }
+      };
 
-        geocoder.addressSearch(address || '구로구 디지털로 300', callback);
+      geocoder.addressSearch(address ? address : props.data?.fetchUseditem.useditemAddress?.address, callback);
 
       })
       
     }
-  }, [address])
+  }, [ props.lng, props.lat, address])
+
+  // useEffect(() => {
+  //   if (props.data !== undefined) {
+  //     setLoad(true);
+  //   }
+  // }, [props.data]);
 
   const onChangeDetailAddr = (event) => {
-
-    // props.setUseditemAddress({
-      //   ...props.useItemAddress,
-      //   zipcode: data.zonecode,
-      //   address: fullAddress,
-      // })
-
     props.setUseditemAddress({
+      ...props.useItemAddress,
       zipcode: addr.zipcode,
-        address: addr.address,
+      address: addr.address,
       addressDetail: event.target.value
     })
-
-    // console.log(event.target.value)
   }
 
 
 
   return (
-    <S.MapArea>
+<S.MapArea>
       <div id="map" style={{width:384, height:252}}></div>
       
       <S.MapInputArea>
       <S.BtnArea>
         <S.MyAddrCodeInput>
-        {addr.zipcode}  
+        {addr.zipcode ? addr.zipcode : props.data?.fetchUseditem.useditemAddress.zipcode}  
         </S.MyAddrCodeInput> 
 
         <S.SearchBtn type="button" onClick={setToggle}>우편번호 검색</S.SearchBtn>
       </S.BtnArea>
 
-        <S.AddressInput>{addr.address}</S.AddressInput>
-        <S.DetailAddrInput type="text" placeholder="상세주소를 입력하세요" onChange={onChangeDetailAddr}/>
+        <S.AddressInput>{addr.address ? addr.address :  props.data?.fetchUseditem.useditemAddress.address}</S.AddressInput>
+        <S.DetailAddrInput type="text" 
+                          placeholder="상세주소를 입력하세요" 
+                          defaultValue={props.data? props.data?.fetchUseditem.useditemAddress.addressDetail : ""}
+                          onChange={onChangeDetailAddr}
+                          />
       </S.MapInputArea>
       {isOpen && 
           <Modal

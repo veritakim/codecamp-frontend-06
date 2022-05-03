@@ -17,3 +17,13 @@ export const visitedPageState = atom({
   key: "visitedPageState",
   default: "/"
 })
+
+export const myBasketCounts = atom({
+  key: "myBasketCounts",
+  default: 0
+})
+
+export const myTodayBasket = atom({
+  key: "myTodayBasket",
+  default: false
+}) 

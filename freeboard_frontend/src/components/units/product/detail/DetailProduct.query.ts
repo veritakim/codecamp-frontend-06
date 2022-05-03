@@ -12,9 +12,31 @@ export const FETCH_USED_ITEM = gql`
       seller {
         _id
         email
+        name
+      }
+      useditemAddress{
+        zipcode
+        address
+        addressDetail
+        lat
+        lng
       }
       images
+      pickedCount
     } 
   }
 `
 
+export const TOGGLE_USED_ITEM_PICK = gql`
+  mutation toggleUseditemPick($useditemId: ID!) {
+    toggleUseditemPick(useditemId: $useditemId) 
+  }
+
+`
+
+export const DELETE_USED_ITEM = gql`
+  mutation deleteUseditem($useditemId: ID!) {
+    deleteUseditem(useditemId: $useditemId)
+  }
+
+`
