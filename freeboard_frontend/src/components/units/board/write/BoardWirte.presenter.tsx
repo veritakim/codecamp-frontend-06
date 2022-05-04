@@ -32,7 +32,7 @@ import {
   ErrorDiv,
   MyPhotoWrapper
 } from "./BoardWrite.style";
-import UploadContainer from "../../../commons/imgUpload/Upload.container";
+import UploadContainer from "../../../commons/imgUpload/Uploads.container";
 
 export default function BoardWriteUi(props: IBoardWriteUiProps) {
   // console.log("데이터", props.data?.fetchBoard.boardAddress);
