@@ -4,6 +4,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import KakaoMapPage2 from "../../../commons/map2";
 import QuestionWritePage from "../question/write/QuestionWrite";
 import QuestionListPage from "../question/list/QuestionList";
+import {v4 as uuid} from 'uuid'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,6 +22,13 @@ const DetailContainer = styled.div`
   margin-right: 20px;
 `
 
+const TopWrapper = styled.div`
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+`
+
 const CommentWrapper = styled(DetailContainer)`
   width: 500px;
   background-color: white;
@@ -36,11 +44,14 @@ interface IProps {
 }
 
 const Heart = styled.div`
-  width: 100px;
+  width: 84px;
   height: 100px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  /* position: absolute; */
+  /* left: 50%; */
+  /* top: 50%; */
+  position: relative;
+  top: 53px;
+  right: -55px;
   transform: translate(-50%, -50%);
   background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
   background-position: 0 0;
@@ -66,6 +77,60 @@ const Img = styled.img`
   width: 320px;
   height: 320px;
 `
+
+const ImgArea = styled.div``
+
+const ContentsArea = styled.div``
+
+const ButtonArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 490px;
+  justify-content: space-evenly;
+  align-items: center;
+`
+
+const HeartArea = styled.div`
+  width: 150px;
+  height: 120px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
+
+const UpdateBtn = styled.button`
+  width: 180px;
+  height: 70px;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  background-color: #FFE004;
+`
+
+const DeleteBtn = styled(UpdateBtn)`
+  background-color: black;
+  color: white;
+  margin-right: 20px;
+`
+
+const HashArea = styled.div`
+  display: flex;
+  height: 100px;
+`
+
+const TagDiv = styled.div`
+  width: 100px;
+  height: 30.51px;
+  background-color: #FFE004;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 32.49px;
+`
+
 export default function DetailProductUi (props: any) {
   // console.log(props.data?.fetchUseditem?._id)
   props.data?.fetchUseditem.images.map(el => {
@@ -79,28 +144,54 @@ export default function DetailProductUi (props: any) {
     <Wrapper>
       <DetailContainer>
         
-        <div>
-        {imgUrl ? (
-          <Img src={`https://storage.googleapis.com/${imgUrl}`}/>
-        )
-        : <Img src="/nonPicture.png" />
-        }
-          <div>{props.data?.fetchUseditem.name}</div>
-          <div>{props.data?.fetchUseditem.remarks}</div>
-          {typeof window !== "undefined" 
-          ? (
-          <div dangerouslySetInnerHTML={{__html: Dompurify.sanitize(props.data?.fetchUseditem.contents)}}></div>
-          )
-          :
-          <div></div>
+        <TopWrapper>
+          <ImgArea>
+            {imgUrl ? (
+              <Img src={`https://storage.googleapis.com/${imgUrl}`}/>
+              )
+              : <Img src="/nonPicture.png" />
+            }
+          </ImgArea>
+
+          <ContentsArea>
+            <div>상품명 : {props.data?.fetchUseditem.name}</div>
+            <div>한줄설명 : {props.data?.fetchUseditem.remarks}</div>
+            <div>가 격 : {props.data?.fetchUseditem.price}원</div>
+            <HashArea>
+              {props.data?.fetchUseditem.tags.filter((el:string) => (el !== ""))
+              .map((el:string) => (
+                <TagDiv key={uuid()}>{el}</TagDiv>
+                ))}
+            </HashArea>
+            {typeof window !== "undefined" 
+            ? (
+            <div dangerouslySetInnerHTML={{__html: Dompurify.sanitize(props.data?.fetchUseditem.contents)}}></div>
+            )
+            :
+            <div></div>
+            }
+            <div>{props.data?.fetchUseditem.price}</div>
+            <ButtonArea>
+              <Basket onClick={props.onClickBaket(props.data?.fetchUseditem)} />
+              <button onClick={props.onClickBuyItem(props.data?.fetchUseditem._id)}>구매하기</button>
+              <HeartArea>
+                <Heart onClick={props.onClickHeart(props.data?.fetchUseditem._id)} isClicked={props.clicked}></Heart>
+                <div>찜하기</div>
+                <div>{props.data?.fetchUseditem.pickedCount || 0}</div>
+              </HeartArea>
+            </ButtonArea>
+            {props.userInfo.email === props.data?.fetchUseditem.seller.email 
+            ? (
+              <>
+                <UpdateBtn onClick={props.onClickUpdate}>수정하기</UpdateBtn>
+                <DeleteBtn onClick={props.onClickDelete(props.data?.fetchUseditem._id)}>삭제하기</DeleteBtn>
+              </>
+              ) 
+            : (<div></div>)
           }
-          <Basket onClick={props.onClickBaket(props.data?.fetchUseditem)} />
-          <div>{props.data?.fetchUseditem.price}</div>
-          <button onClick={props.onClickBuyItem(props.data?.fetchUseditem._id)}>구매하기</button>
-          {props.userInfo.email === props.data?.fetchUseditem.seller.email 
-          ? (<button onClick={props.onClickUpdate}>수정하기</button>) 
-          : (<div></div>)
-        }
+          </ContentsArea>
+
+        </TopWrapper>
 
 
           {props.data?.fetchUseditem?.useditemAddress?.lng && (
@@ -112,12 +203,7 @@ export default function DetailProductUi (props: any) {
           {!props.data?.fetchUseditem?.useditemAddress?.lng && (
               <img style={{width: "860px", height: "448px"}} src='/nonMap.webp' />
           )}
-        </div>
-
-        <div>
-          <Heart onClick={props.onClickHeart(props.data?.fetchUseditem._id)} isClicked={props.clicked}></Heart>
-          <div>찜하기</div>
-        </div>
+        
       </DetailContainer>
 
       <CommentWrapper>

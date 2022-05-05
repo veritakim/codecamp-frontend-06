@@ -38,8 +38,8 @@ export default function ProductListUI (props: any) {
   // console.log(imgUrl)
   return (
 
-      <Container>
-        <div key={uuid()} id={props.el._id} onClick={props.onClickMove(props.el)}>
+      <Container key={uuid()}>
+        <div id={props.el._id} onClick={props.onClickMove(props.el)}>
         {imgUrl === undefined 
           ? (
             <ProductImg src="/b-object.jpeg"/>

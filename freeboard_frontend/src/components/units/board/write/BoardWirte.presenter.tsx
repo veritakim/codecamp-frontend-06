@@ -132,7 +132,7 @@ export default function BoardWriteUi(props: IBoardWriteUiProps) {
                   fileUrl={el}
                   onChangeFileUrls={props.onChangeFileUrls}
                 />
-              ))}
+            ))}
           </MyPhotoWrapper>
         </MyPhotoBody>
 

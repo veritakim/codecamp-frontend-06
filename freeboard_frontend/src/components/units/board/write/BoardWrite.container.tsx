@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
@@ -129,7 +129,8 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
           variables: {
             createBoardInput: {
               ...inputs,
-              boardAddress: addrInputs
+              boardAddress: addrInputs,
+              images: fileUrls
             },
             },
           },
@@ -162,11 +163,15 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
         variables: {
           boardId: router.query.boardId,
           password: inputs.password,
-          updateBoardInput,
+          updateBoardInput: {
+            ...updateBoardInput,
+            images: fileUrls
+          }
+          
         },
       });
       alert("수정이 완료되었습니다.")
-      router.push(`/boards/${router.query.boardId}`);
+      router.push(`/boards/detailBoard/${router.query.boardId}`);
       
     } catch (error: any) {
       alert(error.message)
@@ -209,6 +214,12 @@ export default function BoardWritePage(props: IBoardWriteUiProps) {
       addressDetail: event.target.value
     })
   }
+
+  useEffect(() => {
+    if (props.data?.fetchBoard.images?.length) {
+      setFileUrls([...props.data?.fetchBoard.images]);
+    }
+  }, [props.data]);
 
 
 

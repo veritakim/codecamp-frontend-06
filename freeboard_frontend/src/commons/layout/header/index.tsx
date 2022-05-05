@@ -1,7 +1,11 @@
-import { useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import styled from "@emotion/styled"
+import { Modal } from "antd"
+import { gql } from "graphql-request"
 import { useRouter } from "next/router"
-import { FETCH_USER_LOGGED_IN } from "../../../components/units/user/login/Login.query"
+import { useRecoilState } from "recoil"
+import { LOGOUT_USER } from "../../../components/units/user/login/Login.query"
+import { accessTokenState} from "../../store"
 
 const Wrapper = styled.div`
   height: 100px;
@@ -32,7 +36,8 @@ const Font = styled.span`
   
   
 `
-  
+
+
 
 export default function LayoutHeader () {
   const router = useRouter();
@@ -52,14 +57,33 @@ export default function LayoutHeader () {
   const moveMypage = () => {
     router.push('/user/myPage')
   }
+  const [logoutUser] = useMutation(LOGOUT_USER)
 
-  const userLoggedIn = useQuery(FETCH_USER_LOGGED_IN)
+  const accessToken = useRecoilState(accessTokenState)
+
+  // console.log("header",accessToken)
+
+  const onClickLogout = async () => {
+    try {
+      Modal.warning({
+        title: "logout??",
+        content: "정말로 로그아웃하시겠습니까?",
+      });
+      await logoutUser();
+      location.reload();
+      router.push("/boards");
+    } catch {
+      Modal.error({
+        content: "로그아웃 실패",
+      });
+    }
+  };
 
   return( 
     <Wrapper>
       <Boards><Font onClick={moveToMarket}>중고게시판</Font></Boards>
       <Boards><Font onClick={moveBoardList}>자유게시판</Font></Boards>
-      <Login><Font onClick={moveLogin}>{userLoggedIn ? "로그아웃" : "로그인"}</Font></Login>
+      <Login><Font onClick={accessToken[0] !== undefined ? onClickLogout : moveLogin}>{ accessToken[0] !== undefined ? "로그아웃"  : "로그인"}</Font></Login>
       <MyPage><Font onClick={moveMypage}>마이페이지</Font></MyPage>
     </Wrapper> );
 }
