@@ -31,10 +31,13 @@ export default function Layout (props: ILayoutProps) {
 
   return (
     <>
-    {!isHidden &&
       <Fragment>
+    {!isHidden &&
+      <>
         <LayoutHeader />
         <Layoutbanner />
+      </>
+      }
         <BodyWrapper>
           {/* <LayoutSidebar>여기는 사이드바</LayoutSidebar> */}
           <Body>{props.children}</Body >
@@ -42,13 +45,6 @@ export default function Layout (props: ILayoutProps) {
         <LayoutFooter />
 
       </Fragment> 
-      }
-      {isHidden && 
-       <Fragment>
-         <Body>{props.children}</Body>
-         <LayoutFooter />
-       </Fragment>
-      }
     </>
   )
 }

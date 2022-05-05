@@ -59,7 +59,7 @@ export default function PointChargeContainer () {
         <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
       </Head>
       <h1>{data?.fetchUserLoggedIn.name}님 환영합니다</h1>
-      <h2>포인트 총 {data?.fetchUserLoggedIn.userPoint.amount}원</h2>
+      <h2>포인트 총 {data?.fetchUserLoggedIn?.userPoint?.amount}원</h2>
 
       <div>충전하기</div>
       <input type="radio" name="point" value="500" onChange={onChangeAmount}/>500원

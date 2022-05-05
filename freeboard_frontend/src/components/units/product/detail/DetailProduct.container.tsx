@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { myBasketCounts, myTodayBasket, userInfomationState } from "../../../../commons/store";
 import DetailProductUi from "./DetailProduct.preseter";
@@ -14,13 +14,13 @@ export default function DetailProductContainer () {
     }
   })
 
-  const { data: ipicked1 } = useQuery(FETCH_USED_ITEM_IPICKED)
+  // const { data: ipicked1 } = useQuery(FETCH_USED_ITEM_IPICKED)
 
-  const { data: ipicked2 } = useQuery(FETCH_USED_ITEM_IPICKED, {
-    variables: {
-      page: 2
-    }
-  })
+  // const { data: ipicked2 } = useQuery(FETCH_USED_ITEM_IPICKED, {
+  //   variables: {
+  //     page: 2
+  //   }
+  // })
 
   // const iPicked = ipicked1.concat(ipicked2)
   // console.log("pick",ipicked1)
@@ -29,6 +29,13 @@ export default function DetailProductContainer () {
   setTodayState(false)
 
   const [userInfo] = useRecoilState(userInfomationState)
+
+  useEffect(()=>{
+   if (userInfo) {
+     console.log("DetailProduct")
+   }
+  },[userInfo]);
+
 
   const [deleteItem] = useMutation(DELETE_USED_ITEM)
   

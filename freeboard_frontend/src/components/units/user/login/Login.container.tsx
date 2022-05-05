@@ -88,6 +88,7 @@ export default function LoginContainer() {
   
   return (
   <LoginPresenter
+    handleSubmit={handleSubmit}
     formState={formState}
     register={register}
     onChangeEmail={onChangeEmail}

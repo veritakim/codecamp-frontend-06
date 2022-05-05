@@ -11,13 +11,11 @@ const Wrapper = styled.div`
 
 const Inputdiv = styled.div`
   width: 100%;
-  height: 306px;
+  height: 165px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 14.52px;
   font-size: 30px;
 `
 
@@ -75,7 +73,7 @@ export default function LoginPresenter (props: any) {
 
   return (
     <Wrapper>
-      <form onClick={props.onClickSubmit}>
+      <form onClick={props.handleSubmit(props.onClickSubmit)}>
       <LoginTitle>로그인</LoginTitle>
           <Inputdiv>
             <InputStyle type="text" onKeyUp={props.onChangeEmail} placeholder="이메일" {...props.register("email")} />

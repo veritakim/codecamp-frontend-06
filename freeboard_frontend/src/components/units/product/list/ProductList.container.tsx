@@ -1,27 +1,27 @@
 import { useQuery } from "@apollo/client";
-import ProductListUi from "./ProductList.preseter";
-import { FETCH_USED_ITEMS } from "./ProductList.query";
-import InfiniteScroll from "react-infinite-scroller";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import InfiniteScroll from "react-infinite-scroller";
+import { FETCH_USED_ITEMS } from "./ProductList.query";
 import {v4 as uuid} from 'uuid'
-import { useEffect, useState, MouseEvent } from "react";
 import { useRecoilState } from "recoil";
 import { myTodayBasket } from "../../../../commons/store";
+import ProductListUI from "./ProductList.preseter";
+
 
 const InfiniteWrapper = styled.div``
-
-export default function ProductListContainer () {
+const FlexWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 1444px;
+`
+ 
+export default function ProductList() {
+  const { data, fetchMore } = useQuery(FETCH_USED_ITEMS)
+  // console.log(data?.fetchUseditems)
   const [, setTodayState] = useRecoilState(myTodayBasket)
 
-  const newDate = new Date();
-  const yyyy = newDate.getFullYear()
-  const mm = newDate.getMonth() + 1
-  const dd = newDate.getDate()
-
-  const today = `${yyyy}-${mm}-${dd}`
-
-  const {data, fetchMore } = useQuery(FETCH_USED_ITEMS)
   const router = useRouter()
 
   const onLoadMore = () => {
@@ -41,48 +41,52 @@ export default function ProductListContainer () {
     })
   }
 
-  const onClickMove = (value) => (event) => {
-    const baskets = JSON.parse(localStorage.getItem(today) || "[]") 
-    
-    const temp = baskets.filter((item) => (item._id === event.currentTarget.value))
-    if( temp.length === 1) {
-      return
-    }
-    
-    const { __typename, ...newEl } = value
-    baskets.push(newEl)
-    localStorage.setItem(today, JSON.stringify(baskets))
+  const onClickMove = (value: any) => () => {
+    router.push(`/product/${value._id}`)
+    const baskets = JSON.parse(localStorage.getItem("lattestProduct") || "[]")
 
     setTodayState(prev => !prev)
+
+    const temp = baskets.filter((item: any) => (item._id === value._id))
+    if (temp.length === 1) {
+      return
+    } 
+
+    const { __typename, ...newProduct } = value
+    baskets.push(newProduct)
+    localStorage.setItem("lattestProduct", JSON.stringify(baskets))
+
+
     
-    // console.log(value._id)
-    router.push(`/product/${value._id}`)
   }
 
-  
 
   return (
-    <InfiniteWrapper style={{height: "446px", overflow: "auto"}}>
-      <InfiniteScroll
-          pageStart={0}
-          loadMore={onLoadMore}
-          hasMore={true}
-          useWindow={false}
-      >
-      {data?.fetchUseditems.map((el: any, index) => (
-        <>
-        <ProductListUi 
-          key={uuid()}
-          el={el}
-          onClickMove={onClickMove}
-          onLoadMore={onLoadMore}
-          index={index}
-        />
-        {(index + 1) % 3 === 0 && <br />}
-        </>
-      ))}
+    <InfiniteWrapper style={{height: "1000px", overflow: "auto"}} >
+      {data && (
+        <InfiniteScroll
+            pageStart={0}
+            loadMore={onLoadMore}
+            hasMore={true}
+            useWindow={false}
+        >
+        <FlexWrap>
 
-      </InfiniteScroll>
+          {data?.fetchUseditems.map((el: any) => (
+            <>
+                <ProductListUI
+                  key={uuid()}
+                  el={el}
+                  onLoadMore={onLoadMore}
+                  onClickMove={onClickMove}
+                  />
+              </>
+          ))} 
+        </FlexWrap>
+        </InfiniteScroll>
+      )}
+        
     </InfiniteWrapper>
+
   )
 }

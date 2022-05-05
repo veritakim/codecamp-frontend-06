@@ -117,17 +117,18 @@ export default function QuestionWritePage (props: any) {
       console.log(e.message)
     }
   }
-  console.log(props.el)
+  // console.log(props.el)
   return (
     <Wrapper>
-      {props.isEdit 
-      ? (
-        <Contents defaultValue={props.isEdit&&props.el.contents} onChange={onChangeContents}/>
-      ) 
-      : (
-        <Contents value={contents} defaultValue={props.isEdit? props.el.contents : ""} onChange={onChangeContents}/>
-      )
-      }
+
+        {props.isEdit 
+        ? (
+          <Contents  defaultValue={props.isEdit&&props.el.contents} onChange={onChangeContents}/>
+        ) 
+        : (
+          <Contents value={contents} onChange={onChangeContents}/>
+        )
+        }
 
       <WriteBtn onClick={props.isEdit ? onClickUpdate : onClickComment}>{props.isEdit? "수정하기" : "작성하기"}</WriteBtn>
     </Wrapper>
