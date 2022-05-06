@@ -1,13 +1,12 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import QuestionAnswerListPage from "../../questionAnswer/list/QuestionAnswerList";
-import QuestionAnswerPage from "../../questionAnswer/write/QuestionAnswerWrite";
-import QuestionWritePage from "../write/QuestionWrite";
+import QuestionAnswerPage from "../write/QuestionAnswerWrite";
 
 const Wrapper = styled.div`
   width: 363px;
   height: 115px;
   margin-bottom: 36px;
+  margin-left: 40px;
 `
 
 const UserArea = styled.div`
@@ -57,28 +56,20 @@ const Contents = styled.div`
   cursor: pointer;
 `
 
-export default function QuestionItems (props) {
+export default function QuestionAnswerItems (props) {
   const [isEdit, setIsEdit] = useState(false);
-  const [isAnswer, setIsAnswer] = useState(false)
-
 
   const onClickUpdate = () => {
     setIsEdit(true)
-  }
-
-  const onClickAnswer = () => {
-    setIsAnswer(true)
   }
   return (
     <div>
 
       {isEdit && (
-        <QuestionWritePage isEdit={true} setIsEdit={setIsEdit} el={props.el}/>
+        <QuestionAnswerPage isEdit={true} setIsEdit={setIsEdit} el={props.el}/>
       )}
       
       {!isEdit && (
-        <>
-        
         <Wrapper>
           
           <UserArea>
@@ -93,25 +84,14 @@ export default function QuestionItems (props) {
 
               <div>
                 <EditIcon src="/update.png" onClick={onClickUpdate}/>
-                <DeleteIcon src="/delete.png" onClick={props.deleteQuetion(props.el._id)}/>
+                <DeleteIcon src="/delete.png" onClick={props.deleteQuetionAnswer(props.el._id)}/>
               </div>
           </UserArea>
 
-          <Contents>{props.el.contents}</Contents><br/>
-          <div onClick={onClickAnswer}>답글달기</div>
+          <Contents>{props.el.contents}</Contents>
         </Wrapper>
-        <div>
-          
-          {isAnswer && 
-          (
-            <QuestionAnswerPage id={props.el._id} setIsAnswer={setIsAnswer}/>
-          )}
-          <QuestionAnswerListPage id={props.el._id}/>
-        </div>
-        </>
 
-      )
-      }
+      )}
     </div>
   )
 
