@@ -62,12 +62,12 @@ export default function QuestionAnswerListPage (props: any) {
     try {
       await deleteQuestionAnswer({
         variables:{
-          useditemQuestionId: id
+          useditemQuestionAnswerId: id
         },
         refetchQueries: [
           {
             query: FETCH_USED_ITEM_QUESTION_ANSWERS,
-            variables: { useditemQuestionId: id },
+            variables: { useditemQuestionId: props.id },
           },
         ],
       });
@@ -83,7 +83,7 @@ export default function QuestionAnswerListPage (props: any) {
   <div>
     {data?.fetchUseditemQuestionAnswers.length < 1 
     && (
-      <div>등록된 댓글이 없습니다.</div>
+      <div></div>
     )
     }
     {data?.fetchUseditemQuestionAnswers.map((el) => (
